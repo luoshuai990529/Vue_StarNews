@@ -8,13 +8,21 @@
 </template>
 
 <script>
-export default {};
+export default {
+  
+};
 </script>
 
 <style lang="less" scoped>
 .register {
+  position: absolute;
+  top: 0;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(to right, skyblue, hotpink);
+  background: url("../images/bg-01.jpg") no-repeat;
+  background-size: cover;
+  h2{
+    text-align: center;
+  }
 }
 </style>
