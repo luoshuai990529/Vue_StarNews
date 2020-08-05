@@ -8,7 +8,7 @@
     <div class="login_main">
       <transition appear enter-active-class="animated jello">
         <div class="logo">
-          <span class="iconfont icon-new " :class="isSec"></span>
+          <span class="iconfont icon-new " ></span>
           <b>IT Info</b>
         </div>
       </transition>
