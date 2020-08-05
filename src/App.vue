@@ -30,5 +30,9 @@ export default {
 </script>
 
 <style>
+.animated.bounceInUp,
+.animated.bounceOutDown {
+  animation-duration: 1s;
+}
 
 </style>
