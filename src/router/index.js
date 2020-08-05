@@ -8,12 +8,16 @@ Vue.use(VueRouter)
 const routes = [{
     name: "Login",
     path: "/login",
-    component: Login
+    components: {
+      loginTemp:Login
+    }
   },
   {
     name: "Register",
     path: "/register",
-    component: Register
+    components: {
+      registerTemp: Register,
+    }
   }
 ]
 

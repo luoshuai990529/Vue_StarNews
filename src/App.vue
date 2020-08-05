@@ -6,9 +6,14 @@
     <transition
       enter-active-class="animated bounceInUp"
       leave-active-class="animated bounceOutDown"
-      @after-enter="loginAfterEnter"
     >
-      <router-view></router-view>
+      <router-view name="loginTemp"></router-view>
+    </transition>
+    <transition
+      enter-active-class="animated bounceInUp"
+      leave-active-class="animated bounceOutDown"
+    >
+      <router-view name="registerTemp"></router-view>
     </transition>
   </div>
 </template>
@@ -17,14 +22,13 @@
 export default {
   data() {
     return {
-      islgShow: false,
     };
   },
-  components: {},
+  components: {
+    
+  },
   methods: {
-    loginAfterEnter() {
-      this.islgShow = true;
-    },
+    
   },
 };
 </script>
