@@ -24,6 +24,7 @@
           :placeholder="'用户名/手机号'"
           :inputname="'username'"
           :iconname="'icon-wode'"
+          :ruler="'\\d{3}'"
           @changeNum="getNum"
         ></input-temp>
         <input-temp
@@ -35,6 +36,7 @@
           :placeholder="'密码'"
           :inputname="'passwrod'"
           :iconname="'icon-mima'"
+          :ruler="'\\d{6}'"
           @changeNum="getNum"
         ></input-temp>
         <button class="loginBtn" @onclik.prevent="login">登 录</button>
@@ -141,7 +143,7 @@ input:-ms-input-placeholder {
       .titMsg {
         margin-top: 20px;
         font-size: 12px;
-        color: rgba(65, 65, 65,1);
+        color: rgba(65, 65, 65, 1);
       }
       .loginBtn {
         margin-top: 20px;

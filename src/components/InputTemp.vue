@@ -8,6 +8,7 @@
         :placeholder="placeholder"
         :name="inputname"
         class="msginp"
+        v-model.lazy="inputVal"
       />
       <span class="line" :class="isActive"></span>
     </p>
@@ -16,9 +17,23 @@
 
 <script>
 export default {
-  props: ["isSec", "isActive","curNum","num", "placeholder", "type", "inputname", "iconname"],
+  props: ["isSec", "isActive","curNum","num", "placeholder", "type", "inputname", "iconname","ruler"],
   data() {
-    return {};
+    return {
+      inputVal:""
+    };
+  },
+  watch: {
+    inputVal(){
+      // 监听inputVal，通过正则表达式校验是否合法
+      const reg = new RegExp(this.ruler)
+      console.log(reg);
+      if(reg.test(this.inputVal)){
+        console.log('通过了校验');
+      }else{
+        console.log('输入不合法');
+      }
+    }
   },
   methods: {
     handler(){
