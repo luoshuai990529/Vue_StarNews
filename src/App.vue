@@ -15,6 +15,7 @@
     >
       <router-view name="registerTemp"></router-view>
     </transition>
+    <router-view name="PerInfoTemp"></router-view>
   </div>
 </template>
 

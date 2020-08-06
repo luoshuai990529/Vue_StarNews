@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import Login from "@/views/Login.vue"
 import Register from "@/views/Register.vue"
 import Home from "@/views/Home.vue"
+import PerInfo from "@/views/PerInfo.vue"
 Vue.use(VueRouter)
 
 const routes = [{
@@ -24,6 +25,12 @@ const routes = [{
     path: "/register",
     components: {
       registerTemp: Register,
+    }
+  }, {
+    name: "PerInfo",
+    path: "/perinfo",
+    components: {
+      PerInfoTemp: PerInfo
     }
   }
 ]

@@ -103,6 +103,7 @@ input:-ms-input-placeholder {
 }
 .register {
   position: absolute;
+   z-index: 200;
   top: 0;
   width: 100vw;
   height: 100vh;

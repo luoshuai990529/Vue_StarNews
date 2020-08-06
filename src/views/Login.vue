@@ -39,7 +39,7 @@
           :ruler="'\\d{6}'"
           @changeNum="getNum"
         ></input-temp>
-        <button class="loginBtn" @onclik.prevent="login">登 录</button>
+        <button class="loginBtn" @click.prevent="login">登 录</button>
         <!-- </form> -->
         <p class="titMsg">
           <router-link to="/register" tag="span">没有账号?马上注册!</router-link>
@@ -63,7 +63,8 @@ export default {
   },
   methods: {
     login() {
-      return;
+      console.log('1');
+      window.location.href = "#/perinfo";
     },
     getNum(val) {
       this.curNum = val;
@@ -104,6 +105,7 @@ input:-ms-input-placeholder {
 }
 .login {
   position: absolute;
+  z-index: 200;
   top: 0;
   width: 100vw;
   height: 100vh;
