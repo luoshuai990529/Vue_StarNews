@@ -50,7 +50,7 @@
 export default {};
 </script>
 
-<style lang="less" scope>
+<style lang="less" scoped>
 .perInfo {
   /* 个人头像信息样式 */
   .headerIcon {

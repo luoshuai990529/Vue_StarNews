@@ -28,7 +28,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" >
 .animated.bounceInUp,
 .animated.bounceOutDown {
   animation-duration: 1s;

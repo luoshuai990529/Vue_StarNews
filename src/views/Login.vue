@@ -24,8 +24,8 @@
           :placeholder="'用户名/手机号'"
           :inputname="'username'"
           :iconname="'icon-wode'"
-          :ruler="'\\d{3}'"
           @changeNum="getNum"
+          @getInpVal="setUserName"
         ></input-temp>
         <input-temp
           :curNum="curNum"
@@ -36,10 +36,11 @@
           :placeholder="'密码'"
           :inputname="'passwrod'"
           :iconname="'icon-mima'"
-          :ruler="'\\d{6}'"
           @changeNum="getNum"
+          @getInpVal="setPassWord"
         ></input-temp>
-        <button class="loginBtn" @click.prevent="login">登 录</button>
+        <!-- <button class="loginBtn" @click.prevent="login">登 录</button> -->
+        <btn-temp :btnmsg="'登录'"  :inputValObj="inpvalObj"></btn-temp>
         <!-- </form> -->
         <p class="titMsg">
           <router-link to="/register" tag="span">没有账号?马上注册!</router-link>
@@ -50,6 +51,7 @@
 </template>
 <script>
 import InputTemp from "../components/InputTemp.vue";
+import BtnTemp from "../components/BtnTemp.vue";
 export default {
   data() {
     return {
@@ -59,20 +61,30 @@ export default {
       isSec: "isSec",
       notSec: "",
       num: "",
+      inpvalObj: {
+        username: "",
+        password: "",
+      },
     };
   },
   methods: {
     login() {
-      console.log('1');
-      window.location.href = "#/perinfo";
+      // window.location.href = "#/perinfo";
     },
     getNum(val) {
       this.curNum = val;
+    },
+    setUserName(val) {
+      this.inpvalObj.username = val;
+    },
+    setPassWord(val) {
+      this.inpvalObj.password = val;
     },
   },
 
   components: {
     InputTemp,
+    BtnTemp,
   },
   directives: {
     // 自定义获取焦点事件
@@ -86,7 +98,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style scoped lang="less" >
 input::-webkit-input-placeholder {
   /* WebKit browsers */
   color: rgba(73, 72, 72, 0.6);
@@ -146,21 +158,6 @@ input:-ms-input-placeholder {
         margin-top: 20px;
         font-size: 12px;
         color: rgba(65, 65, 65, 1);
-      }
-      .loginBtn {
-        margin-top: 20px;
-        width: 50vw;
-        height: 5vh;
-        border: none;
-        outline: none;
-        border-radius: 2.5vh;
-        color: #fff;
-        background: linear-gradient(to right, #ac45f4, #0fcee0);
-        font-size: 16px;
-        font-weight: 700;
-        &:active {
-          font-size: 14px;
-        }
       }
     }
   }

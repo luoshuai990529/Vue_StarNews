@@ -47,7 +47,9 @@
           :iconname="'icon-mima'"
           @changeNum="getNum"
         ></input-temp>
-        <button class="loginBtn" @onclik.prevent="login">注 册</button>
+        <!-- <button class="loginBtn" @onclik.prevent="login">注 册</button>
+        -->
+        <btn-temp :btnmsg="'注册'"></btn-temp>
         <!-- </form> -->
         <p class="titMsg">
           <router-link to="/login" tag="span">已有账号,去登陆!</router-link>
@@ -59,6 +61,7 @@
 
 <script>
 import InputTemp from "../components/InputTemp.vue";
+import BtnTemp from "../components/BtnTemp.vue";
 export default {
   data() {
     return {
@@ -80,6 +83,7 @@ export default {
   },
   components: {
     InputTemp,
+    BtnTemp,
   },
 };
 </script>
@@ -103,7 +107,7 @@ input:-ms-input-placeholder {
 }
 .register {
   position: absolute;
-   z-index: 200;
+  z-index: 200;
   top: 0;
   width: 100vw;
   height: 100vh;
@@ -144,21 +148,6 @@ input:-ms-input-placeholder {
         margin-top: 20px;
         font-size: 12px;
         color: rgba(65, 65, 65, 1);
-      }
-      .loginBtn {
-        margin-top: 20px;
-        width: 50vw;
-        height: 5vh;
-        border: none;
-        outline: none;
-        border-radius: 2.5vh;
-        color: #fff;
-        background: linear-gradient(to right, #ac45f4, #0fcee0);
-        font-size: 16px;
-        font-weight: 700;
-        &:active {
-          font-size: 14px;
-        }
       }
     }
   }

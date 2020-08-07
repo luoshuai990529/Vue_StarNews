@@ -163,13 +163,14 @@ export default {
 };
 </script>
 
-<style lang="less" scope>
+<style lang="less" scoped>
 .home {
   width: 100vw;
   overflow: hidden;
   .headerSec {
     position: fixed;
     z-index: 100;
+    width: 100vw;
     .topSec {
       height: 50/360 * 100vw;
       display: flex;
