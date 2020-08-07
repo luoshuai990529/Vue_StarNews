@@ -162,7 +162,30 @@ export default {
   },
 };
 </script>
-
+<style lang="less">
+.home {
+  .newList {
+    .van-tabs {
+      height: 100%;
+    }
+    .van-tabs__line {
+      background-color: #248cec;
+    }
+    .van-tabs__wrap,
+    .van-tabs__nav {
+      background: rgb(246, 246, 246);
+      height: 100%;
+    }
+    
+  }
+  .van-image {
+      img {
+        width: 110/360 * 100vw;
+        height: 75/360 * 100vw;
+      }
+    }
+}
+</style>
 <style lang="less" scoped>
 .home {
   width: 100vw;
@@ -220,17 +243,6 @@ export default {
       display: flex;
       .items {
         flex: 7;
-        .van-tabs {
-          height: 100%;
-        }
-        .van-tabs__line {
-          background-color: #248cec;
-        }
-        .van-tabs__wrap,
-        .van-tabs__nav {
-          background: rgb(246, 246, 246);
-          height: 100%;
-        }
       }
       .glide {
         flex: 1;
@@ -272,7 +284,6 @@ export default {
         display: flex;
         > span {
           flex: 1;
-
           // justify-content: ;
           img {
             width: 110/360 * 100vw;

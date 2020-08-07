@@ -1,5 +1,5 @@
 <template id="InputTemp">
-  <div>
+  <div class="inputDiv">
     <p>
       <span class="iconfont" :class="[isSec,iconname]"></span>
       <input
@@ -8,11 +8,12 @@
         :placeholder="placeholder"
         :name="inputname"
         class="msginp"
-        v-model="inputVal"
+        v-model.trim="inputVal"
         @change="sendVal"
       />
       <span class="line" :class="isActive"></span>
     </p>
+    <p class="errTitle" v-if="!isOK">{{this.errMsg}}</p>
   </div>
 </template>
 
@@ -28,22 +29,30 @@ export default {
     "inputname",
     "iconname",
     "ruler",
+    "errMsg",
   ],
   data() {
     return {
       inputVal: "",
+      isOK: true,
     };
   },
   watch: {
     inputVal() {
+      if (!this.ruler) {
+        return;
+      }
       // 监听inputVal，通过正则表达式校验是否合法
-      const reg = new RegExp(this.ruler);
+      const reg = this.ruler;
+
       // console.log(reg);
-      // if (reg.test(this.inputVal)) {
-      //   console.log("通过了校验");
-      // } else {
-      //   console.log("输入不合法");
-      // }
+      if (reg.test(this.inputVal)) {
+        // console.log("可以使用");
+        this.isOK = true;
+      } else {
+        this.isOK = false;
+        // console.log(this.errMsg);
+      }
     },
   },
   methods: {
@@ -52,6 +61,7 @@ export default {
     },
     sendVal() {
       this.$emit("getInpVal", this.inputVal);
+      this.$emit("getisErro",this.isOK)
     },
   },
   computed: {},
@@ -59,8 +69,41 @@ export default {
 </script>
 
 <style lang="less" scoped>
+input::-webkit-input-placeholder {
+  /* WebKit browsers */
+  color: rgba(255, 255, 255, 0.644);
+  font-size: 14px;
+}
+input:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: rgba(255, 255, 255, 0.644);
+  font-size: 14px;
+}
+input::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: rgba(255, 255, 255, 0.644);
+  font-size: 14px;
+}
+input:-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+  color: rgba(255, 255, 255, 0.644);
+  font-size: 14px;
+}
+.inputDiv {
+  position: relative;
+  .errTitle {
+    position: absolute;
+    top: 22/360*100vw;
+    right: 5/360*100vw;
+    text-align: left;
+    padding-left: 40/360 * 100vw;
+    color: #dc143c;
+    z-index: -1;
+  }
+}
 p {
   position: relative;
+  z-index: 10;
   .line {
     position: absolute;
     bottom: 0.3vh;

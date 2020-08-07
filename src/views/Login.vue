@@ -40,7 +40,7 @@
           @getInpVal="setPassWord"
         ></input-temp>
         <!-- <button class="loginBtn" @click.prevent="login">登 录</button> -->
-        <btn-temp :btnmsg="'登录'"  :inputValObj="inpvalObj"></btn-temp>
+        <btn-temp :btnmsg="'登录'" @isClickBtn="getInpVal"></btn-temp>
         <!-- </form> -->
         <p class="titMsg">
           <router-link to="/register" tag="span">没有账号?马上注册!</router-link>
@@ -79,6 +79,11 @@ export default {
     },
     setPassWord(val) {
       this.inpvalObj.password = val;
+    },
+    /* 获取账号 昵称  密码 并且发送ajax请求进行注册的方法 */
+    getInpVal() {
+      console.log(this.inpvalObj);
+      window.location.href = "/#/perinfo";
     },
   },
 

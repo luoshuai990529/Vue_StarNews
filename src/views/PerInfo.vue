@@ -39,9 +39,20 @@
         </a>
       </div>
       <!-- 我的收藏 -->
-      <div class="myCollect"></div>
+      <div class="myCollect">
+        <a href="#" class="msg_1">我的收藏</a>
+        <a href="#" class="msg_2">
+          文章/视频
+          <i class="iconfont icon-youjiantou"></i>
+        </a>
+      </div>
       <!-- 设置 -->
-      <div class="mySetting"></div>
+      <div class="mySetting">
+        <a href="#" class="msg_1">设置</a>
+        <a href="#" class="msg_2">
+          <i class="iconfont icon-youjiantou"></i>
+        </a>
+      </div>
     </div>
   </div>
 </template>
@@ -53,6 +64,9 @@ export default {};
 <style lang="less" scoped>
 .perInfo {
   /* 个人头像信息样式 */
+  .icon-youjiantou{
+    color: #b8b6b6;
+  }
   .headerIcon {
     height: 130/360 * 100vw;
     background: #f2f2f2;
@@ -60,7 +74,7 @@ export default {};
     .myStatus {
       // padding: 20/360*100vw;
       display: flex;
-      padding-left: 20/360*100vw;
+      padding-left: 20/360 * 100vw;
       margin-top: 7.777778vw;
       // line-height: 130/360 * 100vw;
       .iconShow {
@@ -75,20 +89,29 @@ export default {};
       }
       .headerMsg {
         position: relative;
-        padding-left: 20/360*100vw;
+        padding-left: 20/360 * 100vw;
         flex: 4;
         height: 70/360 * 100vw;
-        .msg1{
-          margin-top: 15/360*100vw;
-          >span{
+        .msg1 {
+          margin-top: 15/360 * 100vw;
+          > span {
             display: block;
           }
+          .createDate{
+            margin-top: 5/360*100vw;
+          }
+          .nickname{
+            margin-left: 9/360*100vw;
+          }
+          .icon-xingbienan{
+            color:skyblue;
+          }
         }
-        .icon-youjiantou{
+        .icon-youjiantou {
           position: absolute;
           right: 0;
           top: 50%;
-          transform: translate3d(-50%,-50%,0);
+          transform: translate3d(-50%, -50%, 0);
         }
       }
     }
@@ -96,6 +119,23 @@ export default {};
 
   /* option样式 */
   .perOption {
+    padding-left: 20/360 * 100vw;
+    > div {
+      height: 50/360 * 100vw;
+      line-height: 50/360 * 100vw;
+      border-bottom: 1px solid #e4e4e4;
+      display: flex;
+      .msg_1 {
+        color: #202020;
+        flex: 1;
+      }
+      .msg_2 {
+        color: #c4c4c4;
+        flex: 1;
+        text-align: right;
+        padding-right: 10/360*100vw;
+      }
+    }
   }
 }
 </style>

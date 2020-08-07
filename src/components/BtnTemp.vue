@@ -8,22 +8,27 @@
 export default {
   props: ["btnmsg", "inputValObj"],
   data() {
-    return {
-      inpValMsg: {
-        username: "admin",
-        password: "123",
-      },
-    };
+    return {};
   },
   methods: {
+    // 判断当前点击的是登录还是注册
     getInpVal() {
-      if (this.btnmsg == "登录") {
-        console.log("你点击的登录按钮");
-        console.log(this.inputValObj);
-      } else if (this.btnmsg == "注册") {
-      }
-
-    //   this.$emit("getUserMsg", this.inpValMsg);
+      //$emit将自定义事件传递给父组件
+      this.$emit("isClickBtn")
+      // if (this.btnmsg == "登录") {
+      //   console.log("你点击的登录按钮");
+      //   console.log(this.inputValObj);
+      //   window.location.href = "/#/perinfo";
+      // } else if (this.btnmsg == "注册") {
+      //   console.log("你点击的注册按钮");
+      //   for (var key in this.inputValObj) {
+      //     if (this.inputValObj[key].trim() == "") {
+      //       this.$toast.fail("不能输入空值！");
+      //       return
+      //     }
+      //   }
+      //   console.log(this.inputValObj);
+      // }
     },
   },
 };
