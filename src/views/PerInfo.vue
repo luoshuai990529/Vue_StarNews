@@ -20,67 +20,54 @@
         </div>
       </div>
     </div>
-    <!-- 我的关注、跟帖、收藏、设置 -->
+    <!-- 我的关注、跟帖、收藏、设置 抽离成组件 -->
     <div class="perOption">
       <!-- 我的关注 -->
-      <div class="myAtten">
-        <a href="#" class="msg_1">我的关注</a>
-        <a href="#" class="msg_2">
-          关注的用户
-          <i class="iconfont icon-youjiantou"></i>
-        </a>
-      </div>
+      <peropt-temp :msg1="'我的关注'" :msg2="'关注的用户'"></peropt-temp>
       <!-- 我的跟帖 -->
-      <div class="myFlup">
-        <a href="#" class="msg_1">我的跟帖</a>
-        <a href="#" class="msg_2">
-          跟帖/回复
-          <i class="iconfont icon-youjiantou"></i>
-        </a>
-      </div>
+      <peropt-temp :msg1="'我的跟帖'" :msg2="'跟帖/回复'"></peropt-temp>
       <!-- 我的收藏 -->
-      <div class="myCollect">
-        <a href="#" class="msg_1">我的收藏</a>
-        <a href="#" class="msg_2">
-          文章/视频
-          <i class="iconfont icon-youjiantou"></i>
-        </a>
-      </div>
+      <peropt-temp :msg1="'我的收藏'" :msg2="'文章/视频'"></peropt-temp>
       <!-- 设置 -->
-      <div class="mySetting">
-        <a href="#" class="msg_1">设置</a>
-        <a href="#" class="msg_2">
-          <i class="iconfont icon-youjiantou"></i>
-        </a>
-      </div>
+      <peropt-temp :msg1="'设置'" :msg2="''"></peropt-temp>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import PeroptTemp from "../components/PeroptTemp.vue";
+export default {
+  data() {
+    return {};
+  },
+  components: {
+    PeroptTemp,
+  },
+};
 </script>
 
 <style lang="less" scoped>
 .perInfo {
+  height: 100vh;
+
   /* 个人头像信息样式 */
-  .icon-youjiantou{
+  .icon-youjiantou {
     color: #b8b6b6;
   }
   .headerIcon {
     height: 130/360 * 100vw;
-    background: #f2f2f2;
+    // background: #f2f2f2;
+    background: url("../assets/images/perbg4.jpg") no-repeat center;
+    background-size: cover;
     overflow: hidden;
     .myStatus {
-      // padding: 20/360*100vw;
       display: flex;
       padding-left: 20/360 * 100vw;
       margin-top: 7.777778vw;
-      // line-height: 130/360 * 100vw;
       .iconShow {
         flex: 1;
         width: 70/360 * 100vw;
-        height: 70/360 * 100vw;
+        height: 65/360 * 100vw;
         border-radius: 35/360 * 100vw;
         overflow: hidden;
         img {
@@ -93,18 +80,19 @@ export default {};
         flex: 4;
         height: 70/360 * 100vw;
         .msg1 {
+          color: #ffffff;
           margin-top: 15/360 * 100vw;
           > span {
             display: block;
           }
-          .createDate{
-            margin-top: 5/360*100vw;
+          .createDate {
+            margin-top: 5/360 * 100vw;
           }
-          .nickname{
-            margin-left: 9/360*100vw;
+          .nickname {
+            margin-left: 9/360 * 100vw;
           }
-          .icon-xingbienan{
-            color:skyblue;
+          .icon-xingbienan {
+            color: skyblue;
           }
         }
         .icon-youjiantou {
@@ -133,7 +121,7 @@ export default {};
         color: #c4c4c4;
         flex: 1;
         text-align: right;
-        padding-right: 10/360*100vw;
+        padding-right: 10/360 * 100vw;
       }
     }
   }
