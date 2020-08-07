@@ -38,10 +38,8 @@
     </div>
     <!-- 新闻内容 -->
     <div class="newsContent">
-      <div class="newsItem">
-        <!-- 新闻标题 -->
+      <!-- <div class="newsItem">
         <p class="newsTitle titleActive">亚马逊雨林为何燃烧？除了新总统"急功近利"的开发，国际资本才是真凶</p>
-        <!-- 新闻图片 -->
         <div class="imgList"></div>
         <div class="newsVideo"></div>
         <div class="botMsg">
@@ -51,9 +49,7 @@
       </div>
 
       <div class="newsItem">
-        <!-- 新闻标题 -->
         <p class="newsTitle">亚马逊雨林为何燃烧？除了新总统"急功近利"的开发，国际资本才是真凶</p>
-        <!-- 新闻图片 -->
         <div class="imgList">
           <span>
             <van-image
@@ -80,11 +76,8 @@
           <span class="tie">53跟帖</span>
         </div>
       </div>
-      <!-- -------------- -->
       <div class="newsItem">
-        <!-- 新闻标题 -->
         <p class="newsTitle">吉他指弹青鸟</p>
-        <!-- 新闻图片 -->
         <div class="imgList"></div>
         <div class="newsVideo">
           <video src="../assets/images/qn.mp4" controls="controls" width></video>
@@ -95,29 +88,57 @@
         </div>
       </div>
       <div class="newsItem">
-        <!-- 新闻标题 -->
         <p class="newsTitle titleActive">亚马逊雨林为何燃烧？除了新总统"急功近利"的开发，国际资本才是真凶</p>
-        <!-- 新闻图片 -->
         <div class="imgList"></div>
         <div class="newsVideo"></div>
         <div class="botMsg">
           <span class="pulmsg">火星时报</span>
           <span class="tie">53跟帖</span>
         </div>
-      </div>
+      </div> -->
       <!-- ------------------ -->
+      <news-temp :pulmsg="'光子报道'" :tienum="'26跟帖'" 
+      :newstitle="`亚马逊雨林为何燃烧？除了新总统'急功近利'的开发，国际资本才是真凶`"
+      :hasvideo="false"
+      :hasimg="false"
+      :titleActive="'titleActive'"></news-temp>
+
+      <news-temp :pulmsg="'火星报道'" :tienum="'44跟帖'" 
+      :newstitle="`亚马逊雨林为何燃烧？除了新总统'急功近利'的开发，国际资本才是真凶`"
+      :hasvideo="false"
+      :hasimg="true"
+      :imglist="imglist"
+      :titleActive="''"></news-temp>
+
+      <news-temp :pulmsg="'天路报道'" :tienum="'34跟帖'" 
+      :newstitle="`亚马逊雨林为何燃烧？除了新总统'急功近利'的开发，国际资本才是真凶`"
+      :hasvideo="true"
+      :videosrc="'/media/qn.8f8d9773.mp4'"
+      :hasimg="false"
+      :titleActive="''"></news-temp>
+
+      <news-temp :pulmsg="'人民月报'" :tienum="'22跟帖'" 
+      :newstitle="`亚马逊雨林为何燃烧？除了新总统'急功近利'的开发，国际资本才是真凶`"
+      :hasvideo="false"
+      :hasimg="false"
+      :titleActive="'titleActive'">
+
+      </news-temp>
     </div>
   </div>
 </template>
 
 <script>
+import NewsTemp from "../components/NewsTemp.vue";
 export default {
-  components: {},
   data() {
     return {
-      username: "10086",
-      passwrod: "123",
       secInputInfo: "搜索最新资讯",
+      imglist:[
+        "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1234977275,3328092187&fm=26&gp=0.jpg",
+        "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1863650379,2889357725&fm=26&gp=0.jpg",
+        "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3051197162,582371333&fm=26&gp=0.jpg"
+      ]
     };
   },
   methods: {
@@ -128,6 +149,9 @@ export default {
     getInfo() {
       this.secInputInfo = "搜索最新资讯";
     },
+  },
+  components: {
+    NewsTemp
   },
   mounted() {
     // this.$toast("提示弹窗");
@@ -176,14 +200,13 @@ export default {
       background: rgb(246, 246, 246);
       height: 100%;
     }
-    
   }
   .van-image {
-      img {
-        width: 110/360 * 100vw;
-        height: 75/360 * 100vw;
-      }
+    img {
+      width: 110/360 * 100vw;
+      height: 75/360 * 100vw;
     }
+  }
 }
 </style>
 <style lang="less" scoped>
@@ -263,50 +286,7 @@ export default {
     &:last-child {
       margin-bottom: 10px;
     }
-    .newsItem {
-      border-bottom: 1px solid #e4e4e4;
-      padding: 10/360 * 100vw;
-      .newsTitle {
-        // width: 210/360*100vw;
-        font-size: 16px;
-        color: #333333;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
-        overflow: hidden;
-      }
-      .titleActive {
-        width: 210/360 * 100vw;
-      }
-      /* 图片样式 */
-      .imgList {
-        margin-top: 5px;
-        display: flex;
-        > span {
-          flex: 1;
-          // justify-content: ;
-          img {
-            width: 110/360 * 100vw;
-            height: 75/360 * 100vw;
-          }
-        }
-      }
-      /* 音频样式 */
-      .newsVideo {
-        video {
-          // width: /360*100vw;
-          width: 100%;
-        }
-      }
-      /* 底部样式 */
-      .botMsg {
-        margin-top: 5/360 * 100vw;
-        color: #868686;
-        .tie {
-          margin-left: 30/360 * 100vw;
-        }
-      }
-    }
+    
   }
 }
 </style>
