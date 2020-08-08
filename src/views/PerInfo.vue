@@ -5,31 +5,31 @@
       <div class="myStatus clearfix">
         <!-- 头像 -->
         <div class="iconShow">
-          <img src="../assets/images/d1.jpg" alt />
+          <img :src="headimg" alt />
         </div>
         <!-- 姓名 生日 -->
         <div class="headerMsg">
           <div class="msg1">
             <p>
-              <i class="iconfont icon-xingbienan"></i>
-              <span class="nickname">火星包</span>
+              <i class="iconfont" :class="gender==1?'icon-xingbienan':'icon-xingbienv'"></i>
+              <span class="nickname">{{nickname}}</span>
             </p>
-            <p class="createDate">2020-03-01</p>
+            <p class="createDate">{{createdate | formateDate}}</p>
           </div>
-          <i class="iconfont icon-youjiantou"></i>
+          <i class="iconfont icon-youjiantou" @click="editInfo"></i>
         </div>
       </div>
     </div>
     <!-- 我的关注、跟帖、收藏、设置 抽离成组件 -->
     <div class="perOption">
       <!-- 我的关注 -->
-      <peropt-temp :msg1="'我的关注'" :msg2="'关注的用户'"></peropt-temp>
+      <peropt-temp :msg1="'我的关注'" :msg2="'关注的用户'" @emitclick="handler('跳转我的关注')"></peropt-temp>
       <!-- 我的跟帖 -->
-      <peropt-temp :msg1="'我的跟帖'" :msg2="'跟帖/回复'"></peropt-temp>
+      <peropt-temp :msg1="'我的跟帖'" :msg2="'跟帖/回复'" @emitclick="handler('跳转跟帖回复')"></peropt-temp>
       <!-- 我的收藏 -->
-      <peropt-temp :msg1="'我的收藏'" :msg2="'文章/视频'"></peropt-temp>
+      <peropt-temp :msg1="'我的收藏'" :msg2="'文章/视频'" @emitclick="handler('跳转文章视频')"></peropt-temp>
       <!-- 设置 -->
-      <peropt-temp :msg1="'设置'" :msg2="''"></peropt-temp>
+      <peropt-temp :msg1="'设置'" :msg2="''" @emitclick="handler('跳转设置')"></peropt-temp>
     </div>
   </div>
 </template>
@@ -37,11 +37,49 @@
 <script>
 import PeroptTemp from "../components/PeroptTemp.vue";
 export default {
+  filters: {
+    formateDate: function (val) {
+      let str = new Date(val).toLocaleDateString();
+      return str;
+    },
+  },
   data() {
-    return {};
+    return {
+      nickname: "火星包",
+      createdate: "2020-08-07",
+      gender: 1,
+      headimg: "../assets/images/d1.jpg",
+    };
   },
   components: {
     PeroptTemp,
+  },
+  methods: {
+    handler(val) {
+      console.log(val);
+    },
+    editInfo(){
+      console.log('编辑我的信息');
+    }
+  },
+  mounted() {
+    // 如果用户没有登录 跳转到登录页面
+    if (!localStorage.getItem("Authorization")) {
+      this.$toast.fail("请先登录!");
+      location.href = "#/login";
+    }
+
+    //发送请求渲染个人中心数据
+    this.$axios({
+      url: "http://127.0.0.1:3000/user/" + localStorage.getItem("userId"),
+      method: "get",
+    }).then((res) => {
+      console.log(res.data.data);
+      this.nickname = res.data.data.nickname;
+      this.createdate = res.data.data.create_date;
+      this.gender = res.data.data.gender;
+      this.headimg = res.data.data.head_img;
+    });
   },
 };
 </script>
@@ -69,6 +107,7 @@ export default {
         width: 70/360 * 100vw;
         height: 65/360 * 100vw;
         border-radius: 35/360 * 100vw;
+        border: 1px solid #fff;
         overflow: hidden;
         img {
           width: 70/360 * 100vw;
@@ -94,11 +133,18 @@ export default {
           .icon-xingbienan {
             color: skyblue;
           }
+          .icon-xingbienv {
+            color: #ff95ca;
+          }
         }
         .icon-youjiantou {
           position: absolute;
           right: 0;
           top: 50%;
+          width: 28/360*100vw;
+          height: 28/360*100vw;
+          line-height: 28/360*100vw;
+          text-align: center;
           transform: translate3d(-50%, -50%, 0);
         }
       }

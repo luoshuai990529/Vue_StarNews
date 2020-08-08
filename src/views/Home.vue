@@ -157,18 +157,23 @@ export default {
     // 发送ajax请求
     let _this = this;
     let newsData;
+    
     this.$axios({
-      url: "http://157.122.54.189:9083/post",
+      url: "http://127.0.0.1:3000/post",
+      // url: "http://157.122.54.189:9083/post",
       method: "get",
       params: {},
     }).then((res) => {
+      console.log(res);
       if (res.status === 200) {
         newsData = res.data.data;
         _this.newsList = newsData;
         console.log(_this.newsList);
-
       }
+    }).catch(err=>{
+      console.log(err);
     });
+
   },
 };
 </script>

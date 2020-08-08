@@ -1,5 +1,5 @@
 <template>
-  <div class="peritems">
+  <div class="peritems" @click="sendClick">
     <a href="#" class="msg_1">{{msg1}}</a>
     <a href="#" class="msg_2">
       {{msg2}}
@@ -14,7 +14,11 @@ export default {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    sendClick() {
+      this.$emit("emitclick")
+    },
+  },
 };
 </script>
 

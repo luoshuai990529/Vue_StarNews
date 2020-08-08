@@ -32,7 +32,7 @@ export default {
   },
   methods: {},
   mounted() {
-    console.log(this.imglist)
+    // console.log(this.imglist)
   },
 };
 </script>

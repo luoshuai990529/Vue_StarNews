@@ -133,13 +133,31 @@ export default {
       // 2、判断输入的值是否都符合正则表达式
       for (var key in this.erroTileObj) {
         var value = this.erroTileObj[key];
-        if(!value){
+        if (!value) {
           this.$toast.fail("请输入正确格式的值");
-          return
+          return;
         }
       }
       // 3.都没问题发送ajax请求
-      console.log('发送ajax请求');
+      console.log("发送ajax请求");
+      console.log(this.inpvalObj);
+      this.$axios({
+        url: "http://127.0.0.1:3000/register",
+        method: "post",
+        data: {
+          username: this.inpvalObj.username,
+          password: this.inpvalObj.password,
+          nickname: this.inpvalObj.nickname,
+        },
+      }).then((res) => {
+        console.log(res.data);
+        if (res.data.message == "注册成功") {
+          this.$toast.success("注册成功");
+          window.location.href="#/login"
+        } else {
+          this.$toast.fail(res.data.message);
+        }
+      });
     },
   },
   components: {

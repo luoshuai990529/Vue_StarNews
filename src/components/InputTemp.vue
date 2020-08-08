@@ -10,10 +10,11 @@
         class="msginp"
         v-model.trim="inputVal"
         @change="sendVal"
+        @input="setErrTitle"
       />
       <span class="line" :class="isActive"></span>
     </p>
-    <p class="errTitle" v-if="!isOK">{{this.errMsg}}</p>
+    <p class="errTitle" :class="isShow?'notShow':''" v-if="!isOK">{{this.errMsg}}</p>
   </div>
 </template>
 
@@ -35,6 +36,7 @@ export default {
     return {
       inputVal: "",
       isOK: true,
+      isShow: false,
     };
   },
   watch: {
@@ -61,7 +63,11 @@ export default {
     },
     sendVal() {
       this.$emit("getInpVal", this.inputVal);
-      this.$emit("getisErro",this.isOK)
+      this.$emit("getisErro", this.isOK);
+    },
+    // 如果输入框没有值 就不显示错误信息
+    setErrTitle() {
+      this.inputVal == "" ? (this.isShow = true) : (this.isShow = false);
     },
   },
   computed: {},
@@ -93,13 +99,16 @@ input:-ms-input-placeholder {
   position: relative;
   .errTitle {
     position: absolute;
-    top: 22/360*100vw;
-    right: 5/360*100vw;
+    top: 24/360 * 100vw;
+    right: 5/360 * 100vw;
     text-align: left;
     padding-left: 40/360 * 100vw;
     color: #dc143c;
     z-index: -1;
   }
+}
+.notShow {
+  display: none;
 }
 p {
   position: relative;

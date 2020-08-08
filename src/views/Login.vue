@@ -82,8 +82,31 @@ export default {
     },
     /* 获取账号 昵称  密码 并且发送ajax请求进行注册的方法 */
     getInpVal() {
-      console.log(this.inpvalObj);
-      window.location.href = "/#/perinfo";
+      if (this.inpvalObj.username == "" || this.inpvalObj.password == "") {
+        this.$toast.fail("用户名和密码不能为空！");
+        return;
+      }
+      console.log("发送ajax请求");
+
+      this.$axios({
+        url: "http://127.0.0.1:3000/login",
+        method: "post",
+        data: {
+          username: this.inpvalObj.username,
+          password: this.inpvalObj.password,
+        },
+      }).then((res) => {
+        if (res.data.statusCode && res.data.statusCode == 401) {
+          this.$toast.fail("用户名或者密码错误");
+        } else {
+          // 存储token值
+          this.$toast.success("登录成功");
+          localStorage.setItem("Authorization", res.data.data.token);
+          localStorage.setItem("userId", res.data.data.user.id);
+          window.location.href = `#/PerInfo`;
+        }
+      });
+      // window.location.href = "/#/perinfo";
     },
   },
 

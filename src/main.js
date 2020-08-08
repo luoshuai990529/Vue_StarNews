@@ -15,6 +15,17 @@ import axios from "axios";
 // 绑定axios到原型
 Vue.prototype.$axios = axios;
 
+Vue.prototype.$axios.interceptors.request.use(config => {
+  // console.log(config.url); //https://autumnfish.cn/api/joke/list
+  config.headers.Authorization = localStorage.getItem("Authorization")
+  // console.log(config.headers.Authorization);
+  
+  return config
+}, err => {
+  console.log(err);
+})
+
+
 Vue.config.productionTip = false
 
 new Vue({
