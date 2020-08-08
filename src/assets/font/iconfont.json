@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1505554",
+      "name": "热点",
+      "font_class": "redian",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "5269209",
+      "name": "取消",
+      "font_class": "quxiao",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "6548532",
+      "name": "返回",
+      "font_class": "fanhui",
+      "unicode": "e655",
+      "unicode_decimal": 58965
+    },
+    {
+      "icon_id": "6888895",
+      "name": "返回",
+      "font_class": "fanhui1",
+      "unicode": "e663",
+      "unicode_decimal": 58979
+    },
+    {
       "icon_id": "1418217",
       "name": "昵称",
       "font_class": "nicheng",

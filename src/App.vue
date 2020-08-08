@@ -16,6 +16,7 @@
       <router-view name="registerTemp"></router-view>
     </transition>
     <router-view name="PerInfoTemp"></router-view>
+    <router-view name="SecInfoTemp"></router-view>
   </div>
 </template>
 

@@ -144,7 +144,7 @@ export default {
   methods: {
     goSecPage() {
       this.secInputInfo = "";
-      return;
+      window.location.href="/#/secinfo"
     },
     getInfo() {
       this.secInputInfo = "搜索最新资讯";
@@ -201,6 +201,7 @@ export default {
   overflow: hidden;
   .headerSec {
     position: fixed;
+    top: 0;
     z-index: 100;
     width: 100vw;
     .topSec {
