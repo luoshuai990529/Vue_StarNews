@@ -3,19 +3,19 @@
     <!-- 新闻标题 -->
     <p class="newsTitle " :class="titleActive">{{newstitle}}</p>
     <!-- 新闻图片 -->
-    <div class="imgList" v-if="hasimg">
-      <span>
+    <div class="imgList" v-if="imglist">
+      <span v-if="imglist[0]">
         <van-image fit :src="imglist[0]" />
       </span>
-      <span>
+      <span v-if="imglist[1]">
         <van-image fit :src="imglist[1]" />
       </span>
-      <span>
+      <span v-if="imglist[2]">
         <van-image fit :src="imglist[2]" />
       </span>
     </div>
-    <div class="newsVideo">
-      <video v-if="hasvideo" :src="videosrc" controls="controls" width></video>
+    <div class="newsVideo" v-if="videosrc">
+      <video :src="videosrc" controls="controls" width></video>
     </div>
     <div class="botMsg">
       <span class="pulmsg">{{pulmsg}}</span>
@@ -26,11 +26,14 @@
 
 <script>
 export default {
-  props: ["pulmsg", "tienum", "newstitle", "hasvideo","hasimg", "imglist", "videosrc","titleActive"],
+  props: ["pulmsg", "tienum", "newstitle",  "imglist", "videosrc","titleActive"],
   data() {
     return {};
   },
   methods: {},
+  mounted() {
+    console.log(this.imglist)
+  },
 };
 </script>
 

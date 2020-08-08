@@ -95,35 +95,34 @@
           <span class="pulmsg">火星时报</span>
           <span class="tie">53跟帖</span>
         </div>
-      </div> -->
+      </div>-->
       <!-- ------------------ -->
-      <news-temp :pulmsg="'光子报道'" :tienum="'26跟帖'" 
-      :newstitle="`亚马逊雨林为何燃烧？除了新总统'急功近利'的开发，国际资本才是真凶`"
-      :hasvideo="false"
-      :hasimg="false"
-      :titleActive="'titleActive'"></news-temp>
+      <news-temp
+        v-for="(item, index) in newsList"
+        :key="index"
+        :pulmsg="'光子报道'"
+        :tienum="'26跟帖'"
+        :newstitle="item.title"
+        :imglist="[item.cover[0].url]"
+        :titleActive="''"
+      ></news-temp>
 
+     
+
+      
       <news-temp :pulmsg="'火星报道'" :tienum="'44跟帖'" 
       :newstitle="`亚马逊雨林为何燃烧？除了新总统'急功近利'的开发，国际资本才是真凶`"
-      :hasvideo="false"
-      :hasimg="true"
       :imglist="imglist"
       :titleActive="''"></news-temp>
 
       <news-temp :pulmsg="'天路报道'" :tienum="'34跟帖'" 
       :newstitle="`亚马逊雨林为何燃烧？除了新总统'急功近利'的开发，国际资本才是真凶`"
-      :hasvideo="true"
-      :videosrc="'/media/qn.8f8d9773.mp4'"
-      :hasimg="false"
+      :videosrc="'../assets/images/qn.mp4'"
       :titleActive="''"></news-temp>
 
       <news-temp :pulmsg="'人民月报'" :tienum="'22跟帖'" 
       :newstitle="`亚马逊雨林为何燃烧？除了新总统'急功近利'的开发，国际资本才是真凶`"
-      :hasvideo="false"
-      :hasimg="false"
-      :titleActive="'titleActive'">
-
-      </news-temp>
+      :titleActive="'titleActive'"></news-temp>
     </div>
   </div>
 </template>
@@ -134,11 +133,12 @@ export default {
   data() {
     return {
       secInputInfo: "搜索最新资讯",
-      imglist:[
+      imglist: [
         "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1234977275,3328092187&fm=26&gp=0.jpg",
         "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1863650379,2889357725&fm=26&gp=0.jpg",
-        "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3051197162,582371333&fm=26&gp=0.jpg"
-      ]
+        "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3051197162,582371333&fm=26&gp=0.jpg",
+      ],
+      newsList: "",
     };
   },
   methods: {
@@ -151,38 +151,24 @@ export default {
     },
   },
   components: {
-    NewsTemp
+    NewsTemp,
   },
   mounted() {
-    // this.$toast("提示弹窗");
-    // axios 使用方式
+    // 发送ajax请求
+    let _this = this;
+    let newsData;
     this.$axios({
-      // 一样是配置对象
-      // 可以使用 http://liangwei.tech:3000/post
-      // 或者本地 127.0.0.1:3000 测试
       url: "http://157.122.54.189:9083/post",
-      // jq 的 type 变成了 method
       method: "get",
-      params: {
-        id: 1,
-      },
-      // 这里注意,成功回调 不再是 success
+      params: {},
     }).then((res) => {
-      console.log(res);
-    });
+      if (res.status === 200) {
+        newsData = res.data.data;
+        _this.newsList = newsData;
+        console.log(_this.newsList);
 
-    // this.$axios({
-    //   url: "http://157.122.54.189:9083/login",
-    //   method: "POST",
-    //   data: {
-    //     username: this.username,
-    //     password: this.password,
-    //   },
-    // }).then((res) => {
-    //   console.log(res);
-    // }).catch((err)=>{
-    //     console.log(err);
-    // });
+      }
+    });
   },
 };
 </script>
@@ -286,7 +272,6 @@ export default {
     &:last-child {
       margin-bottom: 10px;
     }
-    
   }
 }
 </style>
