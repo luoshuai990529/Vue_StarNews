@@ -7,6 +7,7 @@ import Home from "@/views/Home.vue"
 import PerInfo from "@/views/Personal/PerInfo.vue"
 import SecInfo from "@/views/SecInfo.vue"
 import EditInfo from "@/views/Personal/EditInfo.vue"
+import Attention from "@/views/Personal/Attention.vue"
 Vue.use(VueRouter)
 
 const routes = [{
@@ -36,18 +37,25 @@ const routes = [{
       PerInfoTemp: PerInfo
     },
     children: [{
-      path: "editinfo",
-      components: {
-        EditInfoTemp:EditInfo
+        path: "editinfo",
+        components: {
+          EditInfoTemp: EditInfo
+        }
+      },
+      {
+        path: "attention",
+        components: {
+          AttentionTemp: Attention
+        }
       }
-    }]
+    ]
   }, {
     name: "SecInfo",
     path: "/secinfo",
     components: {
       SecInfoTemp: SecInfo
     }
-  }, 
+  },
   // {
   //   name: "EditInfo",
   //   path: "/editinfo",

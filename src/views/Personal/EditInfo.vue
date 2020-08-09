@@ -31,9 +31,6 @@ export default {
   },
   methods: {
     // 回到个人中心方法
-    backperinfo() {
-      this.$router.push("/perinfo");
-    },
     // 点击对应的peropt-temp对应的处理函数
     handler(val) {
       console.log(val);

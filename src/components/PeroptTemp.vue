@@ -1,7 +1,7 @@
 <template>
   <div class="peritems" @click="sendClick">
-    <a href="#" class="msg_1">{{msg1}}</a>
-    <a href="#" class="msg_2">
+    <a href="#" class="msg_1" @click.prevent>{{msg1}}</a>
+    <a href="#" class="msg_2" @click.prevent>
       {{msg2}}
       <i class="iconfont icon-youjiantou"></i>
     </a>
@@ -16,7 +16,7 @@ export default {
   },
   methods: {
     sendClick() {
-      this.$emit("emitclick")
+      this.$emit("emitclick");
     },
   },
 };

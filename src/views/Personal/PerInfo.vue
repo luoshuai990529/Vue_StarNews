@@ -23,7 +23,7 @@
     <!-- 我的关注、跟帖、收藏、设置 抽离成组件 -->
     <div class="perOption">
       <!-- 我的关注 -->
-      <peropt-temp :msg1="'我的关注'" :msg2="'关注的用户'" @emitclick="handler('跳转我的关注')"></peropt-temp>
+      <peropt-temp :msg1="'我的关注'" :msg2="'关注的用户'" @emitclick="handler('Attention')"></peropt-temp>
       <!-- 我的跟帖 -->
       <peropt-temp :msg1="'我的跟帖'" :msg2="'跟帖/回复'" @emitclick="handler('跳转跟帖回复')"></peropt-temp>
       <!-- 我的收藏 -->
@@ -35,6 +35,11 @@
       enter-active-class="animated bounceInRight"
       leave-active-class="animated bounceOutRight">
       <router-view name="EditInfoTemp"></router-view>
+    </transition>
+    <transition 
+      enter-active-class="animated bounceInRight"
+      leave-active-class="animated bounceOutRight">
+      <router-view name="AttentionTemp"></router-view>
     </transition>
   </div>
 </template>
@@ -63,6 +68,9 @@ export default {
   methods: {
     handler(val) {
       console.log(val);
+      if(val=="Attention"){
+        this.$router.push("/perinfo/attention")
+      }
     },
     editInfo(){
       console.log('编辑我的信息');
