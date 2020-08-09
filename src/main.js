@@ -15,6 +15,9 @@ import axios from "axios";
 // 绑定axios到原型
 Vue.prototype.$axios = axios;
 
+
+// 设置 axios 的基准路径
+axios.defaults.baseURL = 'http://127.0.0.1:3000'
 Vue.prototype.$axios.interceptors.request.use(config => {
   // console.log(config.url); //https://autumnfish.cn/api/joke/list
   config.headers.Authorization = localStorage.getItem("Authorization")

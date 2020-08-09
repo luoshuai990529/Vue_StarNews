@@ -31,6 +31,11 @@
       <!-- 设置 -->
       <peropt-temp :msg1="'设置'" :msg2="''" @emitclick="handler('跳转设置')"></peropt-temp>
     </div>
+    <transition 
+      enter-active-class="animated bounceInRight"
+      leave-active-class="animated bounceOutRight">
+      <router-view name="EditInfoTemp"></router-view>
+    </transition>
   </div>
 </template>
 
@@ -49,6 +54,7 @@ export default {
       createdate: "2020-08-07",
       gender: 1,
       headimg: "../../assets/images/d1.jpg",
+      userId:""
     };
   },
   components: {
@@ -60,7 +66,7 @@ export default {
     },
     editInfo(){
       console.log('编辑我的信息');
-      this.$router.push("/editinfo")
+      this.$router.push("/perinfo/editinfo?id="+this.userId)
     }
   },
   mounted() {
@@ -72,7 +78,7 @@ export default {
 
     //发送请求渲染个人中心数据
     this.$axios({
-      url: "http://127.0.0.1:3000/user/" + localStorage.getItem("userId"),
+      url: "/user/" + localStorage.getItem("userId"),
       method: "get",
     }).then((res) => {
       console.log(res.data.data);
@@ -80,6 +86,7 @@ export default {
       this.createdate = res.data.data.create_date;
       this.gender = res.data.data.gender;
       this.headimg = "http://127.0.0.1:3000"+res.data.data.head_img;
+      this.userId= res.data.data.id
     });
   },
 };

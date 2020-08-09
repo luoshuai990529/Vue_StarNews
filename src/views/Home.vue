@@ -159,7 +159,7 @@ export default {
     let newsData;
     
     this.$axios({
-      url: "http://127.0.0.1:3000/post",
+      url: "/post",
       // url: "http://157.122.54.189:9083/post",
       method: "get",
       params: {},

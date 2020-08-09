@@ -34,21 +34,28 @@ const routes = [{
     path: "/perinfo",
     components: {
       PerInfoTemp: PerInfo
-    }
+    },
+    children: [{
+      path: "editinfo",
+      components: {
+        EditInfoTemp:EditInfo
+      }
+    }]
   }, {
     name: "SecInfo",
     path: "/secinfo",
     components: {
       SecInfoTemp: SecInfo
     }
-  },
-  {
-    name: "EditInfo",
-    path: "/editinfo",
-    components: {
-      EditInfoTemp: EditInfo
-    }
-  }
+  }, 
+  // {
+  //   name: "EditInfo",
+  //   path: "/editinfo",
+  //   components: {
+  //     EditInfoTemp: EditInfo
+  //   }
+  // }
+
 ]
 
 const router = new VueRouter({

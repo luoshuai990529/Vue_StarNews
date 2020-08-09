@@ -89,7 +89,7 @@ export default {
       console.log("发送ajax请求");
 
       this.$axios({
-        url: "http://127.0.0.1:3000/login",
+        url: "/login",
         method: "post",
         data: {
           username: this.inpvalObj.username,

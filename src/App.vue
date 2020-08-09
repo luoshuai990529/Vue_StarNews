@@ -17,11 +17,11 @@
     </transition>
     <router-view name="PerInfoTemp"></router-view>
     <router-view name="SecInfoTemp"></router-view>
-    <transition 
+    <!-- <transition 
       enter-active-class="animated bounceInRight"
       leave-active-class="animated bounceOutRight">
       <router-view name="EditInfoTemp"></router-view>
-    </transition>
+    </transition> -->
   </div>
 </template>
 
