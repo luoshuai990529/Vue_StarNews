@@ -1,9 +1,7 @@
 <template>
   <div class="editInfo">
-    <div class="edithead">
-      <i class="iconfont icon-fanhui" @click="backperinfo"></i>
-      <b>编辑资料</b>
-    </div>
+    
+    <per-nav-temp :navtitle="'编辑资料'" @clickNav="backHandler('返回个人中心')"></per-nav-temp>
     <!-- 头像、昵称、密码、性别 -->
     <div class="infocontent">
       <div class="headimg" @click="handler('编辑头像')">
@@ -20,8 +18,9 @@
 </template>
 
 <script>
-// 导入PeroptTmpe组件
+// 导入组件
 import PeroptTemp from "@/components/PeroptTemp.vue";
+import PerNavTemp from "@/components/PerNavTemp.vue";
 export default {
   data() {
     return {
@@ -39,9 +38,15 @@ export default {
     handler(val) {
       console.log(val);
     },
+    // PerNav组件返回对应的处理函数
+    backHandler(msg){
+      console.log(msg);
+      this.$router.push("/perinfo")
+    }
   },
   components: {
     PeroptTemp,
+    PerNavTemp,
   },
   mounted() {
     // 如果用户没有登录 跳转到登录页面
@@ -72,18 +77,7 @@ export default {
   bottom: 0;
   background: #f2f2f2;
   height: 100vh;
-  .edithead {
-    position: relative;
-    text-align: center;
-    line-height: 48/360 * 100vw;
-    border-bottom: 1px solid #d0cfcf;
-    .iconfont {
-      position: absolute;
-      left: 15/360 * 100vw;
-      width: 30/360 * 100vw;
-      text-align: center;
-    }
-  }
+  
   .infocontent {
     padding-left: 20/360 * 100vw;
     .headimg {
