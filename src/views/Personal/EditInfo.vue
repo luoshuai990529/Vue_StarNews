@@ -47,7 +47,7 @@ export default {
   },
   mounted() {
     // 如果用户没有登录 跳转到登录页面
-    if (!localStorage.getItem("Authorization")) {
+    if (!localStorage.getItem("token")) {
       this.$toast.fail("请先登录!");
       location.href = "#/login";
     }

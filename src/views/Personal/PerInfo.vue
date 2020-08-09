@@ -4,8 +4,8 @@
     <div class="headerIcon">
       <div class="myStatus clearfix">
         <!-- 头像 -->
-        <div class="iconShow">
-          <img :src="headimg" alt />
+        <div class="iconShow" v-if="headimg">
+          <img :src="'http://localhost:3000'+headimg" alt />
         </div>
         <!-- 姓名 生日 -->
         <div class="headerMsg">
@@ -30,15 +30,18 @@
       <peropt-temp :msg1="'我的收藏'" :msg2="'文章/视频'" @emitclick="handler('跳转文章视频')"></peropt-temp>
       <!-- 设置 -->
       <peropt-temp :msg1="'设置'" :msg2="''" @emitclick="handler('跳转设置')"></peropt-temp>
+      <peropt-temp :msg1="'退出'" :msg2="''" @emitclick="logout"></peropt-temp>
     </div>
-    <transition 
+    <transition
       enter-active-class="animated bounceInRight"
-      leave-active-class="animated bounceOutRight">
+      leave-active-class="animated bounceOutRight"
+    >
       <router-view name="EditInfoTemp"></router-view>
     </transition>
-    <transition 
+    <transition
       enter-active-class="animated bounceInRight"
-      leave-active-class="animated bounceOutRight">
+      leave-active-class="animated bounceOutRight"
+    >
       <router-view name="AttentionTemp"></router-view>
     </transition>
   </div>
@@ -58,8 +61,8 @@ export default {
       nickname: "火星包",
       createdate: "2020-08-07",
       gender: 1,
-      headimg: "../../assets/images/d1.jpg",
-      userId:""
+      headimg: "",
+      userId: "",
     };
   },
   components: {
@@ -68,34 +71,59 @@ export default {
   methods: {
     handler(val) {
       console.log(val);
-      if(val=="Attention"){
-        this.$router.push("/perinfo/attention")
+      if (val == "Attention") {
+        this.$router.push("/perinfo/attention");
       }
     },
-    editInfo(){
-      console.log('编辑我的信息');
-      this.$router.push("/perinfo/editinfo?id="+this.userId)
-    }
+    logout() {
+      // 1.清理登录记录 包括token和userId
+      localStorage.removeItem("token");
+      localStorage.removeItem("userId");
+      // 2.跳转到登录界面
+      // this.$router.push("/login")
+      // push后退回来还是个人中心，但是由于没有登录
+      // 所以页面会报错，所以用replace替换 那么后退就不会到个人中心，而是到首页
+      this.$router.replace("/login");
+    },
+    editInfo() {
+      console.log("编辑我的信息");
+      this.$router.push("/perinfo/editinfo?id=" + this.userId);
+    },
   },
   mounted() {
-    // 如果用户没有登录 跳转到登录页面
-    if (!localStorage.getItem("Authorization")) {
-      this.$toast.fail("请先登录!");
-      location.href = "#/login";
-    }
-
     //发送请求渲染个人中心数据
     this.$axios({
       url: "/user/" + localStorage.getItem("userId"),
       method: "get",
     }).then((res) => {
-      console.log(res.data.data);
-      this.nickname = res.data.data.nickname;
-      this.createdate = res.data.data.create_date;
-      this.gender = res.data.data.gender;
-      this.headimg = "http://127.0.0.1:3000"+res.data.data.head_img;
-      this.userId= res.data.data.id
+      console.log(res.data);
+      // 如果token或者userId出现问题
+      // 获取数据失败，那么就要跳转到登录页
+      if (res.data.statusCode == 401) {
+        this.$toast.fail("请先登录!");
+        
+        // 清理错误信息
+        localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+        // 跳转
+        this.$router.replace("/login");
+        
+      } else {
+        this.nickname = res.data.data.nickname;
+        this.createdate = res.data.data.create_date;
+        this.gender = res.data.data.gender;
+        this.headimg = res.data.data.head_img;
+        this.userId = res.data.data.id;
+      }
     });
+
+    // 如果用户没有登录 跳转到登录页面
+    // if (!localStorage.getItem("token")) {
+    //   this.$toast.fail("请先登录!");
+    //   location.href = "#/login";
+    // } else {
+
+    // }
   },
 };
 </script>
@@ -157,9 +185,9 @@ export default {
           position: absolute;
           right: 0;
           top: 50%;
-          width: 28/360*100vw;
-          height: 28/360*100vw;
-          line-height: 28/360*100vw;
+          width: 28/360 * 100vw;
+          height: 28/360 * 100vw;
+          line-height: 28/360 * 100vw;
           text-align: center;
           transform: translate3d(-50%, -50%, 0);
         }

@@ -21,7 +21,7 @@
         </div>
         <!-- 我的信息 -->
         <div class="perInfo">
-          <a href="#/login" class="iconfont icon-wode1"></a>
+          <a href="#/perinfo" class="iconfont icon-wode1"></a>
         </div>
       </div>
       <!-- 资讯标签栏 -->

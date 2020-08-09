@@ -86,8 +86,7 @@ export default {
         this.$toast.fail("用户名和密码不能为空！");
         return;
       }
-      console.log("发送ajax请求");
-
+      // console.log("发送ajax请求");
       this.$axios({
         url: "/login",
         method: "post",
@@ -96,15 +95,23 @@ export default {
           password: this.inpvalObj.password,
         },
       }).then((res) => {
-        if (res.data.statusCode && res.data.statusCode == 401) {
-          this.$toast.fail("用户名或者密码错误");
-        } else {
+        if (!res.data.statusCode) {
           // 存储token值
           this.$toast.success("登录成功");
-          localStorage.setItem("Authorization", res.data.data.token);
+          localStorage.setItem("token", res.data.data.token);
           localStorage.setItem("userId", res.data.data.user.id);
-          window.location.href = `#/PerInfo`;
+          window.location.href = `#/perinfo`;
         }
+        // 将错误部分放到了入口文件处理 
+        // if (res.data.statusCode && res.data.statusCode == 401) {
+        //   this.$toast.fail("用户名或者密码错误");
+        // } else {
+        //   // 存储token值
+        //   this.$toast.success("登录成功");
+        //   localStorage.setItem("token", res.data.data.token);
+        //   localStorage.setItem("userId", res.data.data.user.id);
+        //   window.location.href = `#/perinfo`;
+        // }
       });
       // window.location.href = "/#/perinfo";
     },
