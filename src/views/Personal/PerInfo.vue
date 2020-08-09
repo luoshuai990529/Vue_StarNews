@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import PeroptTemp from "../components/PeroptTemp.vue";
+import PeroptTemp from "@/components/PeroptTemp.vue";
 export default {
   filters: {
     formateDate: function (val) {
@@ -48,7 +48,7 @@ export default {
       nickname: "火星包",
       createdate: "2020-08-07",
       gender: 1,
-      headimg: "../assets/images/d1.jpg",
+      headimg: "../../assets/images/d1.jpg",
     };
   },
   components: {
@@ -60,6 +60,7 @@ export default {
     },
     editInfo(){
       console.log('编辑我的信息');
+      this.$router.push("/editinfo")
     }
   },
   mounted() {
@@ -78,7 +79,7 @@ export default {
       this.nickname = res.data.data.nickname;
       this.createdate = res.data.data.create_date;
       this.gender = res.data.data.gender;
-      this.headimg = res.data.data.head_img;
+      this.headimg = "http://127.0.0.1:3000"+res.data.data.head_img;
     });
   },
 };
@@ -95,7 +96,7 @@ export default {
   .headerIcon {
     height: 130/360 * 100vw;
     // background: #f2f2f2;
-    background: url("../assets/images/perbg4.jpg") no-repeat center;
+    background: url("../../assets/images/perbg4.jpg") no-repeat center;
     background-size: cover;
     overflow: hidden;
     .myStatus {

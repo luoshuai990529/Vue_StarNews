@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 // 导入登录和注册组件
-import Login from "@/views/Login.vue"
-import Register from "@/views/Register.vue"
+import Login from "@/views/Autho/Login.vue"
+import Register from "@/views/Autho/Register.vue"
 import Home from "@/views/Home.vue"
-import PerInfo from "@/views/PerInfo.vue"
+import PerInfo from "@/views/Personal/PerInfo.vue"
 import SecInfo from "@/views/SecInfo.vue"
+import EditInfo from "@/views/Personal/EditInfo.vue"
 Vue.use(VueRouter)
 
 const routes = [{
@@ -39,6 +40,13 @@ const routes = [{
     path: "/secinfo",
     components: {
       SecInfoTemp: SecInfo
+    }
+  },
+  {
+    name: "EditInfo",
+    path: "/editinfo",
+    components: {
+      EditInfoTemp: EditInfo
     }
   }
 ]

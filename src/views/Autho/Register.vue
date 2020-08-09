@@ -72,8 +72,8 @@
 </template>
 
 <script>
-import InputTemp from "../components/InputTemp.vue";
-import BtnTemp from "../components/BtnTemp.vue";
+import InputTemp from "@/components/InputTemp.vue";
+import BtnTemp from "@/components/BtnTemp.vue";
 export default {
   data() {
     return {
@@ -174,7 +174,7 @@ export default {
   top: 0;
   width: 100vw;
   height: 100vh;
-  background: url("../assets/images/bg-01.jpg") no-repeat;
+  background: url("../../assets/images/bg-01.jpg") no-repeat;
   background-size: cover;
   .header {
     .icon-xiahua {
