@@ -129,9 +129,9 @@ export default {
     // 监听路由的变化 ，到个人中心页就渲染信息
     "$route.path": function (curVal, oldVal) {
       console.log("当前path:" + curVal, "之前path：" + oldVal);
-      if (curVal == "/perinfo") {
+      if (curVal == "/perinfo" && oldVal == "/perinfo/editinfo") {
         // 重新渲染页面
-        console.log('渲染页面');
+        console.log("渲染页面");
         this.loadPage();
       }
     },

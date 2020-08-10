@@ -2,7 +2,7 @@
   <div class="attentItem">
     <div class="attImg">
       <div class="imgcon">
-        <img :src="attimg" alt />
+        <img :src="$axios.defaults.baseURL+attimg" alt />
       </div>
     </div>
     <div class="attTitle">
@@ -11,7 +11,7 @@
         <span class="attdate">{{attdate}}</span>
       </div>
     </div>
-    <div class="cancel" >
+    <div class="cancel">
       <span @click="sendClick">取消关注</span>
     </div>
   </div>
@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  props: ["attimg","attname","attdate"],
+  props: ["attimg", "attname", "attdate"],
   data() {
     return {};
   },
@@ -49,6 +49,10 @@ export default {
       overflow: hidden;
       border-radius: 50%;
       background: #b3b3b3;
+      object-fit: contain;
+      img{
+        width: 100%;
+      }
     }
   }
   .attTitle {

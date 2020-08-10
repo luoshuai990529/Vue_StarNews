@@ -2,10 +2,14 @@
   <div class="attention">
     <per-nav-temp :navtitle="'我的关注'" @clickNav="backHandler('返回个人中心')"></per-nav-temp>
     <div class="attentionList">
-      <attent-temp :attname="'火星新闻'" :attdate="'2020-01-04'" @cancelClick="cancelhandler"></attent-temp>
-      <attent-temp :attname="'人民月报'" :attdate="'2020-02-15'" @cancelClick="cancelhandler"></attent-temp>
-      <attent-temp :attname="'搜狐互娱'" :attdate="'2020-01-23'" @cancelClick="cancelhandler"></attent-temp>
-      <attent-temp :attname="'腾讯新闻'" :attdate="'2020-05-24'" @cancelClick="cancelhandler"></attent-temp>
+      <attent-temp
+        v-for="(item,index) of attenlist"
+        :key="index"
+        :attname="item.nickname"
+        :attimg="item.head_img"
+        :attdate="item.create_date | formateDate"
+        @cancelClick="cancelhandler"
+      ></attent-temp>
     </div>
   </div>
 </template>
@@ -14,18 +18,38 @@
 import PerNavTemp from "@/components/PerNavTemp.vue";
 import AttentTemp from "@/components/AttentTemp.vue";
 export default {
+  filters: {
+    formateDate: function (val) {
+      let str = val.split("T")[0];
+      return str;
+    },
+  },
+  data() {
+    return {
+      attenlist: [],
+    };
+  },
   components: {
     PerNavTemp,
     AttentTemp,
   },
   methods: {
     backHandler(msg) {
-      console.log(msg);
-      this.$router.push("/perinfo");
+      this.$router.back();
     },
     cancelhandler() {
-      console.log('取消关注');
+      console.log("取消关注");
     },
+  },
+  mounted() {
+    // 请求关注列表
+    this.$axios({
+      url: "/user_follows",
+      method: "get",
+    }).then((res) => {
+      console.log(res.data);
+      this.attenlist = res.data.data;
+    });
   },
 };
 </script>
