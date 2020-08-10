@@ -107,22 +107,28 @@
         :titleActive="''"
       ></news-temp>
 
-     
+      <news-temp
+        :pulmsg="'火星报道'"
+        :tienum="'44跟帖'"
+        :newstitle="`亚马逊雨林为何燃烧？除了新总统'急功近利'的开发，国际资本才是真凶`"
+        :imglist="imglist"
+        :titleActive="''"
+      ></news-temp>
 
-      
-      <news-temp :pulmsg="'火星报道'" :tienum="'44跟帖'" 
-      :newstitle="`亚马逊雨林为何燃烧？除了新总统'急功近利'的开发，国际资本才是真凶`"
-      :imglist="imglist"
-      :titleActive="''"></news-temp>
+      <news-temp
+        :pulmsg="'天路报道'"
+        :tienum="'34跟帖'"
+        :newstitle="`亚马逊雨林为何燃烧？除了新总统'急功近利'的开发，国际资本才是真凶`"
+        :videosrc="'../assets/images/qn.mp4'"
+        :titleActive="''"
+      ></news-temp>
 
-      <news-temp :pulmsg="'天路报道'" :tienum="'34跟帖'" 
-      :newstitle="`亚马逊雨林为何燃烧？除了新总统'急功近利'的开发，国际资本才是真凶`"
-      :videosrc="'../assets/images/qn.mp4'"
-      :titleActive="''"></news-temp>
-
-      <news-temp :pulmsg="'人民月报'" :tienum="'22跟帖'" 
-      :newstitle="`亚马逊雨林为何燃烧？除了新总统'急功近利'的开发，国际资本才是真凶`"
-      :titleActive="'titleActive'"></news-temp>
+      <news-temp
+        :pulmsg="'人民月报'"
+        :tienum="'22跟帖'"
+        :newstitle="`亚马逊雨林为何燃烧？除了新总统'急功近利'的开发，国际资本才是真凶`"
+        :titleActive="'titleActive'"
+      ></news-temp>
     </div>
   </div>
 </template>
@@ -144,7 +150,7 @@ export default {
   methods: {
     goSecPage() {
       this.secInputInfo = "";
-      window.location.href="/#/secinfo"
+      window.location.href = "/#/secinfo";
     },
     getInfo() {
       this.secInputInfo = "搜索最新资讯";
@@ -157,23 +163,24 @@ export default {
     // 发送ajax请求
     let _this = this;
     let newsData;
-    
+
     this.$axios({
       url: "/post",
       // url: "http://157.122.54.189:9083/post",
       method: "get",
       params: {},
-    }).then((res) => {
-      console.log(res);
-      if (res.status === 200) {
-        newsData = res.data.data;
-        _this.newsList = newsData;
-        console.log(_this.newsList);
-      }
-    }).catch(err=>{
-      console.log(err);
-    });
-
+    })
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          newsData = res.data.data;
+          _this.newsList = newsData;
+          console.log(_this.newsList);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
 };
 </script>
@@ -198,6 +205,15 @@ export default {
       height: 75/360 * 100vw;
     }
   }
+}
+/* 编辑页面上传图片样式 */
+
+.van-uploader__wrapper {
+  width: 100%;
+  height: 100%;
+  .van-uploader__upload{
+  margin: 0;
+}
 }
 </style>
 <style lang="less" scoped>

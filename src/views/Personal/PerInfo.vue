@@ -48,6 +48,7 @@
 </template>
 
 <script>
+
 import PeroptTemp from "@/components/PeroptTemp.vue";
 export default {
   filters: {
@@ -76,14 +77,23 @@ export default {
       }
     },
     logout() {
-      // 1.清理登录记录 包括token和userId
-      localStorage.removeItem("token");
-      localStorage.removeItem("userId");
-      // 2.跳转到登录界面
-      // this.$router.push("/login")
-      // push后退回来还是个人中心，但是由于没有登录
-      // 所以页面会报错，所以用replace替换 那么后退就不会到个人中心，而是到首页
-      this.$router.replace("/login");
+      this.$dialog
+        .confirm({
+          message: "你确定要退出登录吗？",
+        })
+        .then(() => {
+          // 1.清理登录记录 包括token和userId
+          localStorage.removeItem("token");
+          localStorage.removeItem("userId");
+          // 2.跳转到登录界面
+          // this.$router.push("/login")
+          // push后退回来还是个人中心，但是由于没有登录
+          // 所以页面会报错，所以用replace替换 那么后退就不会到个人中心，而是到首页
+          this.$router.replace("/login");
+        })
+        .catch(() => {
+
+        });
     },
     editInfo() {
       console.log("编辑我的信息");
@@ -96,18 +106,17 @@ export default {
       url: "/user/" + localStorage.getItem("userId"),
       method: "get",
     }).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       // 如果token或者userId出现问题
       // 获取数据失败，那么就要跳转到登录页
       if (res.data.statusCode == 401) {
         this.$toast.fail("请先登录!");
-        
+
         // 清理错误信息
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
         // 跳转
         this.$router.replace("/login");
-        
       } else {
         this.nickname = res.data.data.nickname;
         this.createdate = res.data.data.create_date;
@@ -155,6 +164,7 @@ export default {
         overflow: hidden;
         img {
           width: 70/360 * 100vw;
+          height: 70/360 * 100vw;
         }
       }
       .headerMsg {

@@ -31,9 +31,9 @@ Vue.prototype.$axios = axios;
 // from：从什么路由开始跳转
 // 最后这个next其实是放行 
 router.beforeEach((to, from, next) => {
-  console.log('目标路由');
-  console.log(to);
-  console.log(from);
+  // console.log('目标路由');
+  // console.log(to);
+  // console.log(from);
 
   // 如果这次跳转to.path 是指向个人中心
   if (to.path == "/perinfo") {
@@ -52,6 +52,11 @@ router.beforeEach((to, from, next) => {
       // 需要直接用router.push
       return
     }
+  }
+
+  if(from.path=="/perinfo/editinfo" && to.path=="/perinfo"){
+    console.log('从编辑页到中心页刷新页面');
+    location.reload();
   }
 
   // 只要有了守卫，必然会拦截所有的跳转
