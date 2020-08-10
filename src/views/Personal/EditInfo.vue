@@ -8,7 +8,7 @@
           <van-uploader class :after-read="afterRead" :max-count="1" />
         </div>
         <img v-if="headimg" :src="'http://localhost:3000'+headimg" alt />
-        <img v-else :src="'@/assets/images/d1.jpg'" alt />
+        <img v-else src="@/assets/images/d1.jpg" alt />
       </div>
       <p class="infotitle">
         <span>点击头像进行编辑</span>
@@ -66,17 +66,25 @@ export default {
       showGender: false,
       showNicname: false,
       showPwd: false,
-      fileList: [
-        { url: "https://img.yzcdn.cn/vant/leaf.jpg" },
-        // Uploader 根据文件后缀来判断是否为图片文件
-        // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
-        // { url: "https://cloud-image", isImage: true },
-      ],
     };
   },
   methods: {
-    // 回到个人中心方法
-    // 点击对应的peropt-temp对应的处理函数
+    // 渲染页面的函数
+    loadPage() {
+      this.$axios({
+        url: "/user/" + localStorage.getItem("userId"),
+        method: "get",
+      }).then((res) => {
+        // console.log(res.data.data);
+        this.nickname = res.data.data.nickname;
+        this.gender = res.data.data.gender + "";
+        this.password = res.data.data.password;
+
+        this.editgender = res.data.data.gender + "";
+        this.headimg = res.data.data.head_img;
+      });
+    },
+    // 点击对应的peropt-temp对应的处理函数,显示对应的输入框
     handler(val) {
       if (val == "nickname") {
         this.showNicname = true;
@@ -131,14 +139,7 @@ export default {
         } else {
           this.$toast.fail(res.message);
         }
-        // 上传成功的地址在
-        // res.data.data.url
-        // 讲这个新地址构造成数据对象,调用之前的修改用户信息函数即可
-        // this.headimg = res.data.data.url;
-        // 调用修改用户资料函数
       });
-
-      
     },
     // PerNav组件返回对应的处理函数
     backHandler(msg) {
@@ -168,10 +169,11 @@ export default {
         },
       })
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           if (res.data.message == "修改成功") {
             this.$toast.success("修改成功");
             this.$router.push("/perinfo");
+            // this.loadPage();
           } else {
             this.$toast.fail(res.data.message);
           }
@@ -186,27 +188,20 @@ export default {
     PerNavTemp,
   },
   mounted() {
-    // 如果用户没有登录 跳转到登录页面
-    if (!localStorage.getItem("token")) {
-      this.$toast.fail("请先登录!");
-      location.href = "#/login";
-    }
-    // console.log(this.$route.query.id);
     //发送请求渲染个人中心数据
-    this.$axios({
-      url: "/user/" + this.$route.query.id,
-      method: "get",
-    }).then((res) => {
-      // console.log(res.data.data);
-      this.nickname = res.data.data.nickname;
-      this.gender = res.data.data.gender + "";
-      this.password = res.data.data.password;
+    this.loadPage();
+    // this.$axios({
+    //   url: "/user/" + this.$route.query.id,
+    //   method: "get",
+    // }).then((res) => {
+    //   // console.log(res.data.data);
+    //   this.nickname = res.data.data.nickname;
+    //   this.gender = res.data.data.gender + "";
+    //   this.password = res.data.data.password;
 
-      this.editgender = res.data.data.gender + "";
-      // this.editnickname = this.nickname;
-      // this.editpwd = this.password;
-      this.headimg = res.data.data.head_img;
-    });
+    //   this.editgender = res.data.data.gender + "";
+    //   this.headimg = res.data.data.head_img;
+    // });
   },
 };
 </script>
@@ -232,7 +227,7 @@ export default {
       border-radius: 50%;
       border: 1px solid #fff;
       overflow: hidden;
-
+      object-fit: contain;
       .uploaderWrapper {
         position: absolute;
         top: 0;

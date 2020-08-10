@@ -36,17 +36,26 @@ const routes = [{
     components: {
       PerInfoTemp: PerInfo
     },
+    meta: {
+      needAuth: true
+    },
     children: [{
         path: "editinfo",
         components: {
           EditInfoTemp: EditInfo
-        }
+        },
+        meta: {
+          needAuth: true
+        },
       },
       {
         path: "attention",
         components: {
           AttentionTemp: Attention
-        }
+        },
+        meta: {
+          needAuth: true
+        },
       }
     ]
   }, {

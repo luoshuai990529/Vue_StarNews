@@ -12,13 +12,10 @@ import {
 
 // 1. 导入组件库  
 import Vant from 'vant'
-// 2. 引入组件 css 文件
 import 'vant/lib/index.css'
-// 3. 注册 vant ui 组件库的标签
 Vue.use(Vant)
 // 导入axios
 import axios from "axios";
-// 绑定axios到原型
 Vue.prototype.$axios = axios;
 
 
@@ -36,14 +33,14 @@ router.beforeEach((to, from, next) => {
   // console.log(from);
 
   // 如果这次跳转to.path 是指向个人中心
-  if (to.path == "/perinfo") {
-    // 那么就要进行token校验 如果有token就放行
+  // 通过meta进行权限校验,判断里面的needAuth属性是否为true,如果有就进行权限校验
+  if (to.meta.needAuth) {
     if (localStorage.getItem("token")) {
       next();
     } else {
-      // Toast.fail(message)
+      Toast.fail("请先登录!")
       // // 如果没有就跳转到登录页
-      router.push("/login").catch(err=>{
+      router.push("/login").catch(err => {
         console.log(err);
       })
       // 有可能找到另一种跳转方法
@@ -53,11 +50,28 @@ router.beforeEach((to, from, next) => {
       return
     }
   }
+  // if (to.path == "/perinfo" || to.path == "/perinfo/editinfo") {
+  //   // 那么就要进行token校验 如果有token就放行
+  // if (localStorage.getItem("token")) {
+  //   next();
+  // } else {
+  //   // Toast.fail(message)
+  //   // // 如果没有就跳转到登录页
+  //   router.push("/login").catch(err => {
+  //     console.log(err);
+  //   })
+  //   // 有可能找到另一种跳转方法
+  //   // next("/login")
+  //   // 新版路由已经不是这么写了
+  //   // 需要直接用router.push
+  //   return
+  // }
+  // }
 
-  if(from.path=="/perinfo/editinfo" && to.path=="/perinfo"){
-    console.log('从编辑页到中心页刷新页面');
-    location.reload();
-  }
+  // if (from.path == "/perinfo/editinfo" && to.path == "/perinfo") {
+  //   console.log('从编辑页到中心页刷新页面');
+  //   location.reload();
+  // }
 
   // 只要有了守卫，必然会拦截所有的跳转
   // 在放行之前，所有的跳转都会停住，如果没有放行 一片空白
@@ -72,7 +86,10 @@ axios.defaults.baseURL = 'http://127.0.0.1:3000'
 axios.interceptors.request.use(config => {
   // console.log(config.url); //https://autumnfish.cn/api/joke/list
   // 不同的系统设计，带token的地方可能不一样，标准情况下在token前 应该加上Bearer
-  config.headers.Authorization = "Bearer " + localStorage.getItem("token")
+  // 有token 但是 没有带上，那么我就让请求带上
+  if (localStorage.getItem("token") && !config.headers.Authorization) {
+    config.headers.Authorization = "Bearer " + localStorage.getItem("token")
+  }
   // console.log(config.headers.Authorization);
 
   return config

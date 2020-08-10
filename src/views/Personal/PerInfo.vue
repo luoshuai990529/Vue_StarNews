@@ -7,6 +7,9 @@
         <div class="iconShow" v-if="headimg">
           <img :src="'http://localhost:3000'+headimg" alt />
         </div>
+        <div class="iconShow" v-else>
+          <img src="@/assets/images/d1.jpg" alt />
+        </div>
         <!-- 姓名 生日 -->
         <div class="headerMsg">
           <div class="msg1">
@@ -48,12 +51,11 @@
 </template>
 
 <script>
-
 import PeroptTemp from "@/components/PeroptTemp.vue";
 export default {
   filters: {
     formateDate: function (val) {
-      let str = new Date(val).toLocaleDateString();
+      let str = val.split("T")[0];
       return str;
     },
   },
@@ -91,48 +93,74 @@ export default {
           // 所以页面会报错，所以用replace替换 那么后退就不会到个人中心，而是到首页
           this.$router.replace("/login");
         })
-        .catch(() => {
-
-        });
+        .catch(() => {});
     },
     editInfo() {
       console.log("编辑我的信息");
       this.$router.push("/perinfo/editinfo?id=" + this.userId);
     },
+    loadPage() {
+      this.$axios({
+        url: "/user/" + localStorage.getItem("userId"),
+        method: "get",
+      }).then((res) => {
+        // console.log(res.data);
+        // 如果token或者userId出现问题
+        // 获取数据失败，那么就要跳转到登录页
+        if (res.data.statusCode == 401) {
+          this.$toast.fail("请先登录!");
+
+          // 清理错误信息
+          localStorage.removeItem("token");
+          localStorage.removeItem("userId");
+          // 跳转
+          this.$router.replace("/login");
+        } else {
+          this.nickname = res.data.data.nickname;
+          this.createdate = res.data.data.create_date;
+          this.gender = res.data.data.gender;
+          this.headimg = res.data.data.head_img;
+          this.userId = res.data.data.id;
+        }
+      });
+    },
+  },
+  watch: {
+    // 监听路由的变化 ，到个人中心页就渲染信息
+    "$route.path": function (curVal, oldVal) {
+      console.log("当前path:" + curVal, "之前path：" + oldVal);
+      if (curVal == "/perinfo") {
+        // 重新渲染页面
+        console.log('渲染页面');
+        this.loadPage();
+      }
+    },
   },
   mounted() {
     //发送请求渲染个人中心数据
-    this.$axios({
-      url: "/user/" + localStorage.getItem("userId"),
-      method: "get",
-    }).then((res) => {
-      // console.log(res.data);
-      // 如果token或者userId出现问题
-      // 获取数据失败，那么就要跳转到登录页
-      if (res.data.statusCode == 401) {
-        this.$toast.fail("请先登录!");
-
-        // 清理错误信息
-        localStorage.removeItem("token");
-        localStorage.removeItem("userId");
-        // 跳转
-        this.$router.replace("/login");
-      } else {
-        this.nickname = res.data.data.nickname;
-        this.createdate = res.data.data.create_date;
-        this.gender = res.data.data.gender;
-        this.headimg = res.data.data.head_img;
-        this.userId = res.data.data.id;
-      }
-    });
-
-    // 如果用户没有登录 跳转到登录页面
-    // if (!localStorage.getItem("token")) {
-    //   this.$toast.fail("请先登录!");
-    //   location.href = "#/login";
-    // } else {
-
-    // }
+    this.loadPage();
+    // this.$axios({
+    //   url: "/user/" + localStorage.getItem("userId"),
+    //   method: "get",
+    // }).then((res) => {
+    //   // console.log(res.data);
+    //   // 如果token或者userId出现问题
+    //   // 获取数据失败，那么就要跳转到登录页
+    //   if (res.data.statusCode == 401) {
+    //     this.$toast.fail("请先登录!");
+    //     // 清理错误信息
+    //     localStorage.removeItem("token");
+    //     localStorage.removeItem("userId");
+    //     // 跳转
+    //     this.$router.replace("/login");
+    //   } else {
+    //     this.nickname = res.data.data.nickname;
+    //     this.createdate = res.data.data.create_date;
+    //     this.gender = res.data.data.gender;
+    //     this.headimg = res.data.data.head_img;
+    //     this.userId = res.data.data.id;
+    //   }
+    // });
   },
 };
 </script>
@@ -162,6 +190,7 @@ export default {
         border-radius: 35/360 * 100vw;
         border: 1px solid #fff;
         overflow: hidden;
+        object-fit: contain;
         img {
           width: 70/360 * 100vw;
           height: 70/360 * 100vw;

@@ -7,24 +7,26 @@
     </div>
     <div class="attTitle">
       <div class="msg">
-        <span class="attname">火星新闻报播</span>
-        <span class="attdate">2020-03-24</span>
+        <span class="attname">{{attname}}</span>
+        <span class="attdate">{{attdate}}</span>
       </div>
     </div>
-    <div class="cancel">
-      <span>取消关注</span>
+    <div class="cancel" >
+      <span @click="sendClick">取消关注</span>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["attimg"],
+  props: ["attimg","attname","attdate"],
   data() {
     return {};
   },
   methods: {
-    sendClick() {},
+    sendClick() {
+      this.$emit("cancelClick");
+    },
   },
 };
 </script>
