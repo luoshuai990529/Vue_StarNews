@@ -20,12 +20,8 @@ const routes = [{
       HomeTemp: Home
     }
   }, {
-    name: "Home",
     path: "/",
-    components: {
-      /* key是viewrouter的name值  Home是引入的组件 */
-      HomeTemp: Home
-    }
+    redirect: "/home"
   }, {
     name: "Login",
     path: "/login",

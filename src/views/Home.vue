@@ -26,11 +26,11 @@
       </div>
       <!-- 资讯标签栏目 -->
       <div class="newList">
-        <div class="items">
+        <div class="items" ref="newsListContent">
           <van-tabs v-model="activeTab">
             <van-tab v-for="(item,index) in columList" :title="item.name" :key="index">
               <div>
-                <!-- <news-temp
+                <news-temp
                   v-for="(item, index) in newsList"
                   :key="index"
                   :pulmsg="'光子报道'"
@@ -38,7 +38,7 @@
                   :newstitle="item.title"
                   :imglist="[item.cover[0].url]"
                   :titleActive="''"
-                ></news-temp>-->
+                ></news-temp>
               </div>
             </van-tab>
           </van-tabs>
@@ -49,7 +49,7 @@
       </div>
     </div>
     <!-- 新闻内容 -->
-    <div class="newsContent">
+    <div class="newsContent" ref="createContent">
       <!-- <div class="newsItem">
         <p class="newsTitle titleActive">亚马逊雨林为何燃烧？除了新总统"急功近利"的开发，国际资本才是真凶</p>
         <div class="imgList"></div>
@@ -58,7 +58,7 @@
           <span class="pulmsg">火星时报</span>
           <span class="tie">53跟帖</span>
         </div>
-      </div> -->
+      </div>-->
       <!-- <div class="newsItem">
         <p class="newsTitle titleActive">亚马逊雨林为何燃烧？除了新总统"急功近利"的开发，国际资本才是真凶</p>
         <div class="imgList"></div>
@@ -128,7 +128,7 @@
         :titleActive="''"
       ></news-temp>-->
 
-      <news-temp
+      <!-- <news-temp
         :pulmsg="'火星报道'"
         :tienum="'44跟帖'"
         :newstitle="`亚马逊雨林为何燃烧？除了新总统'急功近利'的开发，国际资本才是真凶`"
@@ -150,7 +150,7 @@
         :newstitle="`亚马逊雨林为何燃烧？除了新总统'急功近利'的开发，国际资本才是真凶`"
         :titleActive="'titleActive'"
         :imglist="imglist2"
-      ></news-temp>
+      ></news-temp>-->
     </div>
   </div>
 </template>
@@ -207,6 +207,14 @@ export default {
     activeTab: function (index) {
       console.log("tab栏的index值:" + index);
       this.loadPost(index);
+      let itemElem = this.$refs.newsListContent.getElementsByClassName(
+        "van-tabs__content"
+      )[0];
+      let currCon = this.$refs.createContent;
+      console.log(currCon);
+      console.log(itemElem);
+      currCon.appendChild(itemElem);
+      // itemElem.remove();
     },
   },
   mounted() {
@@ -271,7 +279,7 @@ export default {
 <style lang="less" scoped>
 .home {
   width: 100vw;
-  overflow: hidden;
+  // overflow: hidden;
   .headerSec {
     position: fixed;
     top: 0;
@@ -327,6 +335,7 @@ export default {
       display: flex;
       .items {
         flex: 7;
+        width: 100vw;
       }
       .glide {
         position: absolute;
@@ -353,7 +362,6 @@ export default {
     &:last-child {
       margin-bottom: 10px;
     }
-    
   }
 }
 </style>

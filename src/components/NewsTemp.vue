@@ -58,12 +58,7 @@ export default {
   mounted() {
     if (this.imglist) {
       this.imglistLength = this.imglist.length;
-      console.log(this.imglistLength);
     }
-
-    // console.log(this.imglistLength);
-    // this.imglistLength = this.imglist.length
-    // console.log(this.imglist)
   },
 };
 </script>
@@ -120,16 +115,15 @@ export default {
   .singleImg {
     display: flex;
     .singleLeft {
-      flex: 1;
+      flex: 2;
     }
     .singleRight {
       flex: 1;
-      img{
-        width: 100%;
+      img {
+        width: 110/360 * 100vw;
         height: 100%;
       }
     }
-    
   }
 }
 </style>
