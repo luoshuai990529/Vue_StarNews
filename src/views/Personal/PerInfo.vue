@@ -126,12 +126,12 @@ export default {
     },
   },
   watch: {
-    // 监听路由的变化 ，到个人中心页就渲染信息
+    // 监听路由的变化 ，从编辑信息到个人中心页就重新渲染信息
     "$route.path": function (curVal, oldVal) {
       console.log("当前path:" + curVal, "之前path：" + oldVal);
       if (curVal == "/perinfo" && oldVal == "/perinfo/editinfo") {
         // 重新渲染页面
-        console.log("渲染页面");
+        console.log("渲染个人中心");
         this.loadPage();
       }
     },

@@ -22,6 +22,7 @@
       leave-active-class="animated bounceOutRight">
       <router-view name="EditInfoTemp"></router-view>
     </transition> -->
+    <router-view name="TestTemp"></router-view>
   </div>
 </template>
 

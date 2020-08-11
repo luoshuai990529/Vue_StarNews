@@ -12,22 +12,35 @@
       </div>
     </div>
     <div class="cancel">
-      <span @click="sendClick">取消关注</span>
+      <span
+        @click="sendClick"
+        :class="isActive?'active':''"
+        v-text="isActive?'关注':'取消关注'"
+      >{{cancelMsg}}</span>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["attimg", "attname", "attdate"],
+  props: ["attimg", "attname", "attdate", "attId"],
   data() {
-    return {};
+    return {
+      isActive: false,
+      cancelMsg: "取消关注",
+    };
   },
   methods: {
+    // 自定义点击事件传给父组件，并且把id传过去
     sendClick() {
-      this.$emit("cancelClick");
+      this.cancelMsg = this.isActive ? "关注" : "取消关注";
+      this.isActive = !this.isActive;
+      this.$emit("cancelClick", this.attId, this.cancelMsg);
     },
   },
+  mounted() {},
+  watch: {},
+  computed: {},
 };
 </script>
 
@@ -50,7 +63,7 @@ export default {
       border-radius: 50%;
       background: #b3b3b3;
       object-fit: contain;
-      img{
+      img {
         width: 100%;
       }
     }
@@ -77,13 +90,17 @@ export default {
     flex: 1;
     span {
       display: block;
-      background: #e1e1e1;
+      background: rgb(209, 208, 208);
       text-align: center;
       height: 30/360 * 100vw;
       width: 70/360 * 100vw;
-
+      color: rgb(87, 86, 86);
       line-height: 30/360 * 100vw;
       border-radius: 15/360 * 100vw;
+    }
+    .active {
+      background: skyblue;
+      color: rgb(56, 56, 56);
     }
   }
 }

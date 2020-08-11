@@ -8,9 +8,18 @@ import PerInfo from "@/views/Personal/PerInfo.vue"
 import SecInfo from "@/views/SecInfo.vue"
 import EditInfo from "@/views/Personal/EditInfo.vue"
 import Attention from "@/views/Personal/Attention.vue"
+import TestApi from "@/views/TestApi.vue"
+
 Vue.use(VueRouter)
 
 const routes = [{
+    name: "Home",
+    path: "/home",
+    components: {
+      /* key是viewrouter的name值  Home是引入的组件 */
+      HomeTemp: Home
+    }
+  }, {
     name: "Home",
     path: "/",
     components: {
@@ -65,14 +74,14 @@ const routes = [{
       SecInfoTemp: SecInfo
     }
   },
-  // {
-  //   name: "EditInfo",
-  //   path: "/editinfo",
-  //   components: {
-  //     EditInfoTemp: EditInfo
-  //   }
-  // }
-
+  {
+    name: "TestApi",
+    path: "/testapi",
+    components: {
+      /* key是viewrouter的name值  Home是引入的组件 */
+      TestTemp: TestApi
+    }
+  }
 ]
 
 const router = new VueRouter({
