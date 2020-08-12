@@ -27,11 +27,31 @@
       <!-- 资讯标签栏目 -->
       <div class="newList">
         <div class="items" ref="newsListContent">
-          <van-tabs v-model="activeTab">
-            <van-tab v-for="(item,index) in columList" :title="item.name" :key="index">
+          <van-tabs v-model="curIndex">
+            <van-tab
+              v-for="(item,index) in categoryList"
+              :title="item.name"
+              :key="index"
+              :to="'/?category='+index"
+            >
+              <!-- List列表实现懒加载 -->
+              <!-- <van-list
+                v-model="loadPostParam.loading"
+                :finished="loadPostParam.finished"
+                :immediate-check="false"
+                finished-text="没有更多了"
+                @load="loadMorePost"
+                :offset="0"
+              >-->
               <div>
-                <post-temp :postData="item" v-for="(item, index) in postData" :key="index"></post-temp>
+                <!-- 新闻文章数据 -->
+                <post-temp
+                  :postData="item"
+                  v-for="(item, index2) in categoryList[index].postList"
+                  :key="index2"
+                ></post-temp>
               </div>
+              <!-- </van-list> -->
             </van-tab>
           </van-tabs>
         </div>
@@ -41,6 +61,7 @@
       </div>
     </div>
     <!-- 新闻内容 -->
+
     <div class="newsContent" ref="createContent"></div>
   </div>
 </template>
@@ -50,13 +71,13 @@ import PostTemp from "../components/PostTemp.vue";
 export default {
   data() {
     return {
-      activeTab: "",
       secInputInfo: "搜索最新资讯",
-      columList: "",
-      postData: "",
+      categoryList: [],
+      curIndex: Number(this.$route.query.category) || 0,
     };
   },
   methods: {
+    // 搜索框的方法
     goSecPage() {
       this.secInputInfo = "";
       window.location.href = "/#/secinfo";
@@ -64,53 +85,132 @@ export default {
     getInfo() {
       this.secInputInfo = "搜索最新资讯";
     },
-    loadPost(index) {
-      // 发送ajax请求请求psot新闻
+    //页面到底部触发的回调函数
+    loadMorePost() {
+      console.log("页面已经到底部，加载更多");
+    },
+    //加载新闻信息
+    loadPost() {
+      console.log("2---调用loadPost函数请求新闻文章数据");
+
+      // 获取当前栏目所显示的文章类别category,调用getCurCategory函数
+      console.log(
+        "2.1------获取当前的栏目category，通过category.id可以获取当前激活栏目的id"
+      );
+      let category = this.getCurCategory();
+      let categoryId = category.id;
+      console.log("当前激活栏目的id：" + categoryId);
+      // console.log("当前栏目的当前页："+category.pageIndex);
+      // console.log("当前栏目显示的文章数："+category.pageSize);
       this.$axios({
         url: "/post",
         method: "get",
         params: {
-          // 数据的页数
-          pageIndex: 1,
-          // 数据显示的类别
-          category: index,
-          // 指定一次要拿出几条数据
-          pageSize: 6,
+          category: categoryId,
+          pageIndex: category.pageIndex,
+          pageSize: category.pageSize,
         },
       }).then((res) => {
-        console.log("-----------------新闻列表--------------");
         console.log(res.data.data);
-        if (res.status === 200) {
-          this.postData = res.data.data;
+        console.log(
+          "2.2---------将category中的postList数组解构，以及获取的文章数据解构到数组重新赋值给category.postList"
+        );
+        category.postList = [...category.postList, ...res.data.data];
+        console.log(
+          "2.3---------将category中的loading状态改为false，表示加载完毕"
+        );
+        category.loading = false;
+
+        // 判断文章的数据总长度是否小于category.pageSize即每页显示的文章数，如果小于则表示加载完毕
+        if (res.data.data < category.pageSize) {
+          category.finished = true;
+          console.log("数据已经加载完毕");
+        } else {
+          console.log("数据还没有加载完毕可以继续加载");
         }
+        console.log(
+          "loadPage 渲染完成！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！"
+        );
       });
+    },
+    // 加载首页栏目
+    loadCategory() {
+      this.$axios({
+        url: "/category",
+        method: "get",
+      }).then((res) => {
+        // 改造栏目数据，调用initCategory
+        console.log("1.1------调用initCategory改造栏目数据");
+        this.categoryList = this.initCategory(res);
+
+        //发送loadPost请求文章数据
+        this.loadPost();
+      });
+    },
+    // 获取category激活栏目的id
+    getCurCategory() {
+      console.log(
+        "------------------------进入getCurCategory获取当前激活栏目------------------------"
+      );
+      let index = this.curIndex;
+      // 利用当前激活栏目的索引，获取当前的激活栏目
+      let category = this.categoryList[index];
+      return category;
+    },
+    // 改造栏目数据函数initCategory
+    initCategory(res) {
+      console.log(
+        "1.2---------在每个栏目中添加管理自己的文章数组postList，pageIndex当前页，pageSize页面长度，加载状态"
+      );
+      const oldCategoryData = res.data.data;
+      console.log("改造之前的栏目老数据：oldCategoryData");
+      console.log(oldCategoryData);
+      const categoryList = res.data.data.map((item) => {
+        let newArr = {
+          // 将所有的栏目数据用扩展运算符将每一项，都扩展到newArr中
+          ...item,
+          pageIndex: 1,
+          pageSize: 6,
+          postList: [],
+          // 栏目的当前状态 是否正在加载loading  是否加载完成finished
+          loading: true,
+          finished: false,
+        };
+        return newArr;
+      });
+      console.log("改造后的栏目数据:categoryList");
+      console.log(categoryList);
+      console.log("1.3---------最后将改造后的栏目数据返回给this.categoryList");
+      return categoryList;
     },
   },
   components: {
     PostTemp,
   },
   watch: {
-    // 监听tab标签栏的变化 每次变化都会传过来一个索引值
-    activeTab: function (index) {
-      console.log("tab栏的index值:" + index);
-      this.loadPost(index);
+    // 4.监听tab标签栏的变化 每次变化都会传过来一个索引值
+    curIndex: function (index) {
+      console.log("-----------------执行监听器的curIndex方法--------------当前栏目的索引值是"+index);
+      // 获取当前激活栏目信息
+      const category = this.getCurCategory();
+
+      // 如果当前激活栏目的postList 的长度为0，就需要渲染页面才执行loadPost，否则不需要刷新页面了
+      if (category.postList.length == 0) {
+        this.loadPost();
+      }
+      console.log(this.categoryList[index].postList);
     },
   },
   mounted() {
-    // 请求首页栏目数据
-    this.$axios({
-      url: "/category",
-      method: "get",
-    }).then((res) => {
-      // console.log(res.data.data);
-      this.columList = res.data.data;
-    });
+    // 进入页面首先请求栏目数据
+    console.log("1---进入页面首先请求栏目数据");
+    this.loadCategory();
+
     // 操作Dom
     let itemElem = this.$refs.newsListContent.getElementsByClassName(
       "van-tabs__content"
     )[0];
     let currCon = this.$refs.createContent;
-    // console.log(currCon, itemElem);
     currCon.appendChild(itemElem);
   },
 };
