@@ -30,15 +30,7 @@
           <van-tabs v-model="activeTab">
             <van-tab v-for="(item,index) in columList" :title="item.name" :key="index">
               <div>
-                <news-temp
-                  v-for="(item, index) in newsList"
-                  :key="index"
-                  :pulmsg="'光子报道'"
-                  :tienum="'26跟帖'"
-                  :newstitle="item.title"
-                  :imglist="[item.cover[0].url]"
-                  :titleActive="''"
-                ></news-temp>
+                <post-temp :postData="item" v-for="(item, index) in postData" :key="index"></post-temp>
               </div>
             </van-tab>
           </van-tabs>
@@ -49,129 +41,19 @@
       </div>
     </div>
     <!-- 新闻内容 -->
-    <div class="newsContent" ref="createContent">
-      <!-- <div class="newsItem">
-        <p class="newsTitle titleActive">亚马逊雨林为何燃烧？除了新总统"急功近利"的开发，国际资本才是真凶</p>
-        <div class="imgList"></div>
-        <div class="newsVideo"></div>
-        <div class="botMsg">
-          <span class="pulmsg">火星时报</span>
-          <span class="tie">53跟帖</span>
-        </div>
-      </div>-->
-      <!-- <div class="newsItem">
-        <p class="newsTitle titleActive">亚马逊雨林为何燃烧？除了新总统"急功近利"的开发，国际资本才是真凶</p>
-        <div class="imgList"></div>
-        <div class="newsVideo"></div>
-        <div class="botMsg">
-          <span class="pulmsg">火星时报</span>
-          <span class="tie">53跟帖</span>
-        </div>
-      </div>
-
-      <div class="newsItem">
-        <p class="newsTitle">亚马逊雨林为何燃烧？除了新总统"急功近利"的开发，国际资本才是真凶</p>
-        <div class="imgList">
-          <span>
-            <van-image
-              fit
-              src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3051197162,582371333&fm=26&gp=0.jpg"
-            />
-          </span>
-          <span>
-            <van-image
-              fit
-              src="https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1863650379,2889357725&fm=26&gp=0.jpg"
-            />
-          </span>
-          <span>
-            <van-image
-              fit
-              src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1234977275,3328092187&fm=26&gp=0.jpg"
-            />
-          </span>
-        </div>
-        <div class="newsVideo"></div>
-        <div class="botMsg">
-          <span class="pulmsg">火星时报</span>
-          <span class="tie">53跟帖</span>
-        </div>
-      </div>
-      <div class="newsItem">
-        <p class="newsTitle">吉他指弹青鸟</p>
-        <div class="imgList"></div>
-        <div class="newsVideo">
-          <video src="../assets/images/qn.mp4" controls="controls" width></video>
-        </div>
-        <div class="botMsg">
-          <span class="pulmsg">火星时报</span>
-          <span class="tie">53跟帖</span>
-        </div>
-      </div>
-      <div class="newsItem">
-        <p class="newsTitle titleActive">亚马逊雨林为何燃烧？除了新总统"急功近利"的开发，国际资本才是真凶</p>
-        <div class="imgList"></div>
-        <div class="newsVideo"></div>
-        <div class="botMsg">
-          <span class="pulmsg">火星时报</span>
-          <span class="tie">53跟帖</span>
-        </div>
-      </div>-->
-      <!-- ------------------ -->
-      <!-- <news-temp
-        v-for="(item, index) in newsList"
-        :key="index"
-        :pulmsg="'光子报道'"
-        :tienum="'26跟帖'"
-        :newstitle="item.title"
-        :imglist="[item.cover[0].url]"
-        :titleActive="''"
-      ></news-temp>-->
-
-      <!-- <news-temp
-        :pulmsg="'火星报道'"
-        :tienum="'44跟帖'"
-        :newstitle="`亚马逊雨林为何燃烧？除了新总统'急功近利'的开发，国际资本才是真凶`"
-        :imglist="imglist"
-        :titleActive="''"
-      ></news-temp>
-
-      <news-temp
-        :pulmsg="'天路报道'"
-        :tienum="'34跟帖'"
-        :newstitle="`亚马逊雨林为何燃烧？除了新总统'急功近利'的开发，国际资本才是真凶`"
-        :videosrc="'../assets/images/qn.mp4'"
-        :titleActive="''"
-      ></news-temp>
-
-      <news-temp
-        :pulmsg="'人民月报'"
-        :tienum="'22跟帖'"
-        :newstitle="`亚马逊雨林为何燃烧？除了新总统'急功近利'的开发，国际资本才是真凶`"
-        :titleActive="'titleActive'"
-        :imglist="imglist2"
-      ></news-temp>-->
-    </div>
+    <div class="newsContent" ref="createContent"></div>
   </div>
 </template>
 
 <script>
-import NewsTemp from "../components/NewsTemp.vue";
+import PostTemp from "../components/PostTemp.vue";
 export default {
   data() {
     return {
       activeTab: "",
       secInputInfo: "搜索最新资讯",
-      imglist: [
-        "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1234977275,3328092187&fm=26&gp=0.jpg",
-        "https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1863650379,2889357725&fm=26&gp=0.jpg",
-        "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3051197162,582371333&fm=26&gp=0.jpg",
-      ],
-      imglist2: [
-        "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1234977275,3328092187&fm=26&gp=0.jpg",
-      ],
-      newsList: "",
-      columList: [],
+      columList: "",
+      postData: "",
     };
   },
   methods: {
@@ -188,33 +70,30 @@ export default {
         url: "/post",
         method: "get",
         params: {
+          // 数据的页数
+          pageIndex: 1,
+          // 数据显示的类别
           category: index,
+          // 指定一次要拿出几条数据
+          pageSize: 6,
         },
       }).then((res) => {
-        console.log("新闻列表");
+        console.log("-----------------新闻列表--------------");
         console.log(res.data.data);
         if (res.status === 200) {
-          this.newsList = res.data.data;
+          this.postData = res.data.data;
         }
       });
     },
   },
   components: {
-    NewsTemp,
+    PostTemp,
   },
   watch: {
     // 监听tab标签栏的变化 每次变化都会传过来一个索引值
     activeTab: function (index) {
       console.log("tab栏的index值:" + index);
       this.loadPost(index);
-      let itemElem = this.$refs.newsListContent.getElementsByClassName(
-        "van-tabs__content"
-      )[0];
-      let currCon = this.$refs.createContent;
-      console.log(currCon);
-      console.log(itemElem);
-      currCon.appendChild(itemElem);
-      // itemElem.remove();
     },
   },
   mounted() {
@@ -223,24 +102,16 @@ export default {
       url: "/category",
       method: "get",
     }).then((res) => {
-      console.log("栏目");
-      console.log(res.data.data);
+      // console.log(res.data.data);
       this.columList = res.data.data;
     });
-
-    //请求新闻数据
-    // this.$axios({
-    //   url: "/post",
-    //   // url: "http://157.122.54.189:9083/post",
-    //   method: "get",
-    //   params: {},
-    // }).then((res) => {
-    //   console.log("新闻");
-    //   console.log(res.data.data);
-    //   if (res.status === 200) {
-    //     this.newsList = res.data.data;
-    //   }
-    // });
+    // 操作Dom
+    let itemElem = this.$refs.newsListContent.getElementsByClassName(
+      "van-tabs__content"
+    )[0];
+    let currCon = this.$refs.createContent;
+    // console.log(currCon, itemElem);
+    currCon.appendChild(itemElem);
   },
 };
 </script>

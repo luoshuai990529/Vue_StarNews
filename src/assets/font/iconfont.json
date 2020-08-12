@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "14830369",
+      "name": "shiping",
+      "font_class": "shiping",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
       "icon_id": "1505554",
       "name": "热点",
       "font_class": "redian",
