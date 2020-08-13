@@ -7,7 +7,12 @@
         <i class="iconfont icon-new" @click="$router.back()"></i>
       </div>
       <div class="right">
-        <span @click="AttentionTo">关注</span>
+        <span
+          v-cloak
+          @click="AttentionTo"
+          v-text="isAttention?'取消关注':'关注'"
+          :class="isAttention?'isActive':''"
+        ></span>
       </div>
     </div>
 
@@ -25,7 +30,7 @@
     </div>
     <!-- 视频文章详情 -->
     <div v-if="type==2 && content.indexOf('content')==-1" class="videoPost">
-      <div class="videoCon" >
+      <div class="videoCon">
         <video :src="content" controls="true" muted="muted"></video>
       </div>
       <div class="articlefrom">
@@ -93,11 +98,37 @@ export default {
       postImg: "",
       isStar: false,
       head_img: "",
+      userId: "",
+      isAttention: false,
     };
   },
   methods: {
     AttentionTo() {
-      console.log("点击关注");
+      if (this.isAttention) {
+        console.log("取消关注" + this.userId);
+        this.$axios({
+          url: "/user_unfollow/" + this.userId,
+          method: "get",
+        }).then((res) => {
+          console.log(res);
+          if ((res.message = "取消关注成功")) {
+            this.$toast.success("取消关注成功");
+          }
+        });
+      } else {
+        console.log("关注用户" + this.userId);
+        this.$axios({
+          url: "/user_follows/" + this.userId,
+          method: "get",
+        }).then((res) => {
+          console.log(res);
+          if (res.data.message == "关注成功") {
+            this.$toast.success(res.data.message);
+          }
+        });
+      }
+      this.isAttention = !this.isAttention;
+      // 发送关注ajax请求
     },
     discuss() {
       console.log("评论");
@@ -109,27 +140,51 @@ export default {
     share() {
       console.log("分享");
     },
+    loadDetail() {
+      // 请求文章详情接口
+      this.$axios({
+        url: "/post/" + this.$route.query.id,
+        method: "get",
+      }).then((res) => {
+        console.log("请求文章接口");
+        console.log(res.data.data);
+        this.type = res.data.data.type;
+        this.title = res.data.data.title;
+        this.create_date = res.data.data.create_date;
+        this.content = res.data.data.content;
+        this.nickname = res.data.data.user.nickname;
+        this.postImg = res.data.data.cover[0].url;
+        this.head_img = res.data.data.user.head_img;
+        this.userId = res.data.data.user.id;
+
+        let isAttention = res.data.data.user;
+        this.$axios({
+          url: "/user_follows",
+          method: "get",
+        }).then((res) => {
+          console.log("判断该出版人是否被关注");
+          console.log(res.data.data);
+          console.log(isAttention);
+          res.data.data.forEach((item) => {
+            console.log(item);
+            if (item.id == isAttention.id) {
+              this.isAttention = true;
+            }
+          });
+        });
+      });
+    },
   },
   mounted() {
-    // 请求文章详情接口
-    this.$axios({
-      url: "/post/" + this.$route.query.id,
-      method: "get",
-    }).then((res) => {
-      console.log(res.data.data);
-      this.type = res.data.data.type;
-      this.title = res.data.data.title;
-      this.create_date = res.data.data.create_date;
-      this.content = res.data.data.content;
-      this.nickname = res.data.data.user.nickname;
-      this.postImg = res.data.data.cover[0].url;
-      this.head_img = res.data.data.user.head_img;
-    });
+    this.loadDetail();
   },
 };
 </script>
 
 <style lang="less" scoped>
+[v-cloak] {
+  display: none;
+}
 .postdetail {
   position: relative;
   height: 100%;
@@ -166,6 +221,10 @@ export default {
       text-align: right;
       padding-right: 20/360 * 100vw;
       line-height: 40/360 * 100vw;
+      .isActive {
+        background: #a0a0a0;
+        color: #fff;
+      }
       span {
         padding: 6/360 * 100vw 16/360 * 100vw;
         background: #3f98ec;
@@ -217,7 +276,7 @@ export default {
         width: 100vw;
       }
     }
-   
+
     .articlefrom {
       display: flex;
       height: 60/360 * 100vw;
