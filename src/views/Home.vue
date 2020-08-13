@@ -35,23 +35,24 @@
               :to="'/?category='+index"
             >
               <!-- List列表实现懒加载 -->
-              <!-- <van-list
-                v-model="loadPostParam.loading"
-                :finished="loadPostParam.finished"
+              <van-list
+                v-model="categoryList[index].loading"
+                :finished="categoryList[index].finished"
                 :immediate-check="false"
                 finished-text="没有更多了"
                 @load="loadMorePost"
                 :offset="0"
-              >-->
-              <div>
-                <!-- 新闻文章数据 -->
-                <post-temp
-                  :postData="item"
-                  v-for="(item, index2) in categoryList[index].postList"
-                  :key="index2"
-                ></post-temp>
-              </div>
-              <!-- </van-list> -->
+              >
+                <div>
+                  <!-- 新闻文章数据 -->
+                  <!-- 循环categoryList里面对应当前索引的所有文章 -->
+                  <post-temp
+                    :postData="item"
+                    v-for="(item, index2) in categoryList[index].postList"
+                    :key="index2"
+                  ></post-temp>
+                </div>
+              </van-list>
             </van-tab>
           </van-tabs>
         </div>
@@ -73,6 +74,7 @@ export default {
     return {
       secInputInfo: "搜索最新资讯",
       categoryList: [],
+      // curIndex会随着当前url的变化而变化，刚进入页面为0
       curIndex: Number(this.$route.query.category) || 0,
     };
   },
@@ -87,7 +89,18 @@ export default {
     },
     //页面到底部触发的回调函数
     loadMorePost() {
-      console.log("页面已经到底部，加载更多");
+      console.log(
+        "页面已经到底部，加载更多,将当前栏目的pageIndex+1再调用loadPage加载新的数据"
+      );
+
+      // 获取当前激活栏目，将其PageIndex+1
+      let category = this.getCurCategory();
+      category.pageIndex += 1;
+
+      // 加载新的数据，调用loadPage
+      setTimeout(() => {
+        this.loadPost();
+      }, 1000);
     },
     //加载新闻信息
     loadPost() {
@@ -111,7 +124,7 @@ export default {
           pageSize: category.pageSize,
         },
       }).then((res) => {
-        console.log(res.data.data);
+        console.log(res.data);
         console.log(
           "2.2---------将category中的postList数组解构，以及获取的文章数据解构到数组重新赋值给category.postList"
         );
@@ -121,12 +134,13 @@ export default {
         );
         category.loading = false;
 
-        // 判断文章的数据总长度是否小于category.pageSize即每页显示的文章数，如果小于则表示加载完毕
-        if (res.data.data < category.pageSize) {
+        // 判断当前栏目文章的数据总长度是否小于category.pageSize即每页显示的文章数，如果小于则表示加载完毕
+        console.log("2.4---------判断当前栏目的数据是否全部加载完毕");
+        if (res.data.total <= category.postList.length) {
           category.finished = true;
-          console.log("数据已经加载完毕");
+          console.log("2.4.1---------数据已经加载完毕");
         } else {
-          console.log("数据还没有加载完毕可以继续加载");
+          console.log("2.4.1---------可以继续加载");
         }
         console.log(
           "loadPage 渲染完成！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！"
@@ -170,7 +184,7 @@ export default {
           // 将所有的栏目数据用扩展运算符将每一项，都扩展到newArr中
           ...item,
           pageIndex: 1,
-          pageSize: 6,
+          pageSize: 5,
           postList: [],
           // 栏目的当前状态 是否正在加载loading  是否加载完成finished
           loading: true,
@@ -190,15 +204,21 @@ export default {
   watch: {
     // 4.监听tab标签栏的变化 每次变化都会传过来一个索引值
     curIndex: function (index) {
-      console.log("-----------------执行监听器的curIndex方法--------------当前栏目的索引值是"+index);
+      console.log(
+        "-----------------执行监听器的curIndex方法--------------当前栏目的索引值是" +
+          index
+      );
       // 获取当前激活栏目信息
       const category = this.getCurCategory();
 
       // 如果当前激活栏目的postList 的长度为0，就需要渲染页面才执行loadPost，否则不需要刷新页面了
       if (category.postList.length == 0) {
+        console.log("当前激活栏目的postlist长度为0，因此执行loadPost渲染数据");
         this.loadPost();
+      } else {
+        console.log("当前激活栏目的postList数据不为0，无需重新渲染页面");
+        console.log(this.categoryList[index].postList);
       }
-      console.log(this.categoryList[index].postList);
     },
   },
   mounted() {
