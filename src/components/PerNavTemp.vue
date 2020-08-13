@@ -11,8 +11,7 @@
 export default {
   props: ["navtitle"],
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
     sendClick() {
@@ -28,6 +27,9 @@ export default {
   text-align: center;
   line-height: 48/360 * 100vw;
   border-bottom: 1px solid #d0cfcf;
+  background: url('../assets/images/perbg4.jpg') no-repeat center;
+  background-size: cover;
+  color: #fff;
   .iconfont {
     position: absolute;
     left: 15/360 * 100vw;

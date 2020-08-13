@@ -23,6 +23,7 @@
       <router-view name="EditInfoTemp"></router-view>
     </transition> -->
     <router-view name="TestTemp"></router-view>
+    <router-view name="PostDetialTemp"></router-view>
   </div>
 </template>
 

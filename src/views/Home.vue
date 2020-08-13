@@ -64,11 +64,18 @@
     <!-- 新闻内容 -->
 
     <div class="newsContent" ref="createContent"></div>
+    <!-- <transition
+      enter-active-class="animated bounceInRight"
+      leave-active-class="animated bounceOutRight"
+    >
+    <router-view name="PostDetailTemp"></router-view>
+    </transition> -->
   </div>
 </template>
 
 <script>
 import PostTemp from "../components/PostTemp.vue";
+// import PostDetail from "./PostDetail.vue"
 export default {
   data() {
     return {
@@ -200,6 +207,7 @@ export default {
   },
   components: {
     PostTemp,
+    // PostDetail
   },
   watch: {
     // 4.监听tab标签栏的变化 每次变化都会传过来一个索引值

@@ -9,7 +9,7 @@ import SecInfo from "@/views/SecInfo.vue"
 import EditInfo from "@/views/Personal/EditInfo.vue"
 import Attention from "@/views/Personal/Attention.vue"
 import TestApi from "@/views/TestApi.vue"
-
+import PostDetail from "@/views/PostDetail.vue"
 Vue.use(VueRouter)
 
 const routes = [{
@@ -74,8 +74,13 @@ const routes = [{
     name: "TestApi",
     path: "/testapi",
     components: {
-      /* key是viewrouter的name值  Home是引入的组件 */
       TestTemp: TestApi
+    }
+  }, {
+    name: "PostDetail",
+    path: "/postdetail",
+    components: {
+      PostDetialTemp: PostDetail
     }
   }
 ]

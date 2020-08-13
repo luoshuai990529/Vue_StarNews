@@ -1,0 +1,355 @@
+<template>
+  <div class="postdetail">
+    <!-- 头部栏 -->
+    <div class="detail-header">
+      <div class="left">
+        <i class="iconfont icon-zuojiantou" @click="$router.back()"></i>
+        <i class="iconfont icon-new" @click="$router.back()"></i>
+      </div>
+      <div class="right">
+        <span @click="AttentionTo">关注</span>
+      </div>
+    </div>
+
+    <!-- 普通文章详情 -->
+    <div v-if="type==1|| content.indexOf('content')!=-1" class="normalPost">
+      <h3 class="title">{{title}}</h3>
+      <p class="pmsg">
+        <span class="postfrom">{{nickname}}</span>
+        <span class="time">{{create_date.split("T")[0]}}</span>
+      </p>
+      <!-- <div class="imgcon" v-if="postImg">
+        <img :src="postImg" alt />
+      </div>-->
+      <div class="content" v-html="content"></div>
+    </div>
+    <!-- 视频文章详情 -->
+    <div v-if="type==2 && content.indexOf('content')==-1" class="videoPost">
+      <div class="videoCon" >
+        <video :src="content" controls="true" muted="muted"></video>
+      </div>
+      <div class="articlefrom">
+        <div class="userMsg">
+          <span class="headImg">
+            <img :src="$axios.defaults.baseURL + head_img" alt />
+          </span>
+          <span class="text">{{nickname}}</span>
+        </div>
+        <!-- <div class="attention">
+          <span>关注</span>
+        </div>-->
+      </div>
+      <h3 class="title">{{title}}</h3>
+    </div>
+    <!-- 点赞微信 -->
+    <div class="detailBot">
+      <div class="left">
+        <span class="dianzan">
+          <i class="iconfont icon-dianzan"></i>
+          <i class="number">112</i>
+        </span>
+      </div>
+      <div class="right">
+        <span class="weixin">
+          <i class="iconfont icon-weixin"></i>
+          <i class="text">微信</i>
+        </span>
+      </div>
+    </div>
+    <!-- 精彩跟帖 -->
+    <div class="followUp">
+      <h3>精彩跟帖</h3>
+      <p class="more">
+        <a href="#">更多跟帖</a>
+      </p>
+      <div class="writeinp">
+        <div class="inpCon">
+          <input type="text" placeholder="写跟帖" />
+          <i class="iconfont icon-pinglun" @click="discuss">
+            <span class="tienum">121</span>
+          </i>
+          <i
+            class="iconfont isStar"
+            @click="collection"
+            v-text="isStar?'★':'☆'"
+            :class="isStar?'active':''"
+          ></i>
+          <i class="iconfont icon-share_icon" @click="share"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      type: 1,
+      title: "",
+      create_date: "",
+      content: "",
+      nickname: "",
+      postImg: "",
+      isStar: false,
+      head_img: "",
+    };
+  },
+  methods: {
+    AttentionTo() {
+      console.log("点击关注");
+    },
+    discuss() {
+      console.log("评论");
+    },
+    collection() {
+      console.log("收藏");
+      this.isStar = !this.isStar;
+    },
+    share() {
+      console.log("分享");
+    },
+  },
+  mounted() {
+    // 请求文章详情接口
+    this.$axios({
+      url: "/post/" + this.$route.query.id,
+      method: "get",
+    }).then((res) => {
+      console.log(res.data.data);
+      this.type = res.data.data.type;
+      this.title = res.data.data.title;
+      this.create_date = res.data.data.create_date;
+      this.content = res.data.data.content;
+      this.nickname = res.data.data.user.nickname;
+      this.postImg = res.data.data.cover[0].url;
+      this.head_img = res.data.data.user.head_img;
+    });
+  },
+};
+</script>
+
+<style lang="less" scoped>
+.postdetail {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: #f2f2f2;
+  h3 {
+    font-size: 20/360 * 100vw;
+  }
+  // 头部样式
+  .detail-header {
+    position: fixed;
+    top: 0;
+    background: #f2f2f2;
+    border-bottom: 1px solid #e4e4e4;
+    height: 40/360 * 100vw;
+    width: 100vw;
+    display: flex;
+    .left {
+      position: relative;
+      line-height: 40/360 * 100vw;
+      padding-left: 12/360 * 100vw;
+      flex: 1;
+      .iconfont {
+        font-size: 23/360 * 100vw;
+      }
+      .icon-new {
+        position: absolute;
+        left: 34/360 * 100vw;
+        font-size: 44/360 * 100vw;
+      }
+    }
+    .right {
+      flex: 1;
+      text-align: right;
+      padding-right: 20/360 * 100vw;
+      line-height: 40/360 * 100vw;
+      span {
+        padding: 6/360 * 100vw 16/360 * 100vw;
+        background: #3f98ec;
+        border-radius: 13/360 * 100vw;
+        color: #fff;
+      }
+    }
+  }
+  // 普通新闻详情
+  .normalPost {
+    padding: 10/360 * 100vw 20/360 * 100vw;
+    margin-top: 40/360 * 100vw;
+    .pmsg {
+      color: #868686;
+      margin-top: 5/360 * 100vw;
+      .time {
+        margin-left: 20/360 * 100vw;
+      }
+    }
+    .imgcon {
+      margin-top: 10/360 * 100vw;
+      width: 325/360 * 100vw;
+      height: 180/360 * 100vw;
+      object-fit: contain;
+      img {
+        width: 100%;
+        height: 100%;
+        // width: 330/360 * 100vw;
+        // height: 180/360 * 100vw;
+      }
+    }
+    .content {
+      font-size: 16/360 * 100vw;
+      margin-top: 10/360 * 100vw;
+      line-height: 30/360 * 100vw;
+      /deep/ a > img {
+        width: 325/360 * 100vw;
+        height: 180/360 * 100vw;
+      }
+    }
+  }
+  // 视频新闻详情
+  .videoPost {
+    margin-top: 40/360 * 100vw;
+
+    .videoCon {
+      width: 100vw;
+      video {
+        width: 100vw;
+      }
+    }
+   
+    .articlefrom {
+      display: flex;
+      height: 60/360 * 100vw;
+      padding: 10/360 * 100vw 15/360 * 100vw;
+      .userMsg {
+        flex: 1;
+        .headImg {
+          vertical-align: middle;
+          display: inline-block;
+          width: 40/360 * 100vw;
+          height: 40/360 * 100vw;
+          border-radius: 20/360 * 100vw;
+          // object-fit: contain;
+          overflow: hidden;
+          img {
+            width: 40/360 * 100vw;
+            height: 40/360 * 100vw;
+          }
+        }
+        .text {
+          display: inline-block;
+          margin-left: 10/360 * 100vw;
+        }
+      }
+      .attention {
+        flex: 1;
+        text-align: right;
+        span {
+          line-height: 40/360 * 100vw;
+          padding: 6/360 * 100vw 16/360 * 100vw;
+          background: #3f98ec;
+          border-radius: 13/360 * 100vw;
+          color: #fff;
+        }
+      }
+    }
+    h3.title {
+      font-weight: 400;
+      padding: 0 15/360 * 100vw;
+      font-size: 16/360 * 100vw;
+    }
+  }
+  // 点赞微信
+  .detailBot {
+    height: 50/360 * 100vw;
+    display: flex;
+    margin-top: 10/360 * 100vw;
+    > div {
+      flex: 1;
+      line-height: 50/360 * 100vw;
+      text-align: center;
+      > span {
+        padding: 6/360 * 100vw 12/360 * 100vw;
+        border: 1px solid #797979;
+        border-radius: 16/360 * 100vw;
+        > i {
+          font-style: normal;
+        }
+        .icon-dianzan {
+          font-size: 16/360 * 100vw;
+        }
+        .icon-weixin {
+          color: #00c200;
+          font-size: 16/360 * 100vw;
+        }
+      }
+    }
+  }
+  // 跟帖
+  .followUp {
+    margin-top: 20/360 * 100vw;
+    height: 240/360 * 100vw;
+    border-top: 5px solid #e4e4e4;
+    h3 {
+      text-align: center;
+      font-weight: 400;
+      font-size: 22/360 * 100vw;
+      margin-top: 20/360 * 100vw;
+    }
+    .more {
+      margin-top: 40/360 * 100vw;
+      text-align: center;
+      > a {
+        border: 1px solid #8f8f8f;
+        border-radius: 20/360 * 100vw;
+        padding: 10/360 * 100vw 20/360 * 100vw;
+      }
+    }
+    .writeinp {
+      position: fixed;
+      display: flex;
+      z-index: 100;
+      background: #f2f2f2;
+      bottom: 0;
+      width: 100vw;
+      border-top: 2px solid #e4e4e4;
+      height: 60/360 * 100vw;
+      .inpCon {
+        line-height: 60/360 * 100vw;
+        padding: 0 24/360 * 100vw;
+        input {
+          height: 30/360 * 100vw;
+          border-radius: 15/360 * 100vw;
+          background: #d7d7d7;
+          text-indent: 10/360 * 100vw;
+        }
+        .iconfont {
+          position: relative;
+          font-size: 22/360 * 100vw;
+          margin-left: 24/360 * 100vw;
+          vertical-align: middle;
+        }
+        .tienum {
+          position: absolute;
+          top: -6 /360 * 100vw;
+          right: -16 /360 * 100vw;
+          height: 15/360 * 100vw;
+          line-height: 15/360 * 100vw;
+          background: red;
+          color: #fff;
+          padding: 0 4/360 * 100vw;
+          border-radius: 20/360 * 100vw;
+          font-size: 12/360 * 100vw;
+        }
+        .isStar {
+          font-size: 28/360 * 100vw;
+        }
+        .active {
+          color: gold;
+        }
+      }
+    }
+  }
+}
+</style>

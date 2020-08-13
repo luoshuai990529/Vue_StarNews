@@ -4,7 +4,7 @@
     <button class @click="sendAxios">测试接口</button>
 
     <hr />
-    <van-list
+    <!-- <van-list
       v-model="loading"
       :finished="finished"
       finished-text="没有更多了"
@@ -13,49 +13,13 @@
       <div class="con">
         <ul>
           <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
-          <li>3333333333333</li>
+
           <li>3333333333333</li>
           <li>3333333333333</li>
         </ul>
         <van-cell v-for="item in list" :key="item" :title="item" />
       </div>
-    </van-list>
+    </van-list>-->
   </div>
 </template>
 
@@ -71,6 +35,12 @@ export default {
   methods: {
     sendAxios() {
       // 关注用户请求
+      this.$axios({
+        url: "/post/" + 1,
+        method: "get",
+      }).then((res) => {
+        console.log(res);
+      });
       // this.$axios({
       //   url: "/user_follows/" + 4,
       //   method: "get",
