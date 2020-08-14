@@ -21,10 +21,12 @@
         <van-cell v-for="item in list" :key="item" :title="item" />
       </div>
     </van-list>-->
+    <digui :num="3"></digui>
   </div>
 </template>
 
 <script>
+import Digui from "@/components/Digui.vue";
 export default {
   data() {
     return {
@@ -73,7 +75,9 @@ export default {
       // });
     },
   },
-  components: {},
+  components: {
+    Digui,
+  },
 };
 </script>
 

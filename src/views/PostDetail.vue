@@ -1,5 +1,5 @@
 <template>
-  <div class="postdetail">
+  <div class="postdetail" @click="handler">
     <!-- 头部栏 -->
     <div class="detail-header">
       <div class="left">
@@ -64,10 +64,22 @@
     <!-- 精彩跟帖 -->
     <div class="followUp">
       <h3>精彩跟帖</h3>
+      <!-- 跟帖内容 显示三条 -->
+      <div class="followList"></div>
       <p class="more">
         <a href="#">更多跟帖</a>
       </p>
-      <div class="writeinp">
+      <!-- 评论跟帖组件 -->
+      <commentInput
+        :tienum="121"
+        :isStar="isStar"
+        :showInput="showInput"
+        @discuss="discuss"
+        @collection="collection"
+        @share="share"
+        @sendClickArea="clickInput"
+      ></commentInput>
+      <!-- <div class="writeinp">
         <div class="inpCon">
           <input type="text" placeholder="写跟帖" />
           <i class="iconfont icon-pinglun" @click="discuss">
@@ -81,12 +93,13 @@
           ></i>
           <i class="iconfont icon-share_icon" @click="share"></i>
         </div>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
 
 <script>
+import CommentInput from "@/components/comment/CommentInput.vue";
 export default {
   data() {
     return {
@@ -103,6 +116,7 @@ export default {
       AticelId: "",
       like_length: "",
       isDianzan: false,
+      showInput: false,
     };
   },
   methods: {
@@ -134,7 +148,8 @@ export default {
       // 发送关注ajax请求
     },
     discuss() {
-      console.log("评论");
+      console.log("点击了输入框，显示文本域输入框");
+      this.showInput = true;
     },
     collection() {
       this.$axios({
@@ -198,9 +213,22 @@ export default {
         });
       });
     },
+    // 点击文章详情组件，隐藏文本域输入框处理函数
+    handler() {
+      console.log("点击了文章详情组件,隐藏文本域输入框");
+      this.showInput = false;
+    },
+    // 点击输入框组件，显示文本域输入框
+    clickInput() {
+      console.log("点击了输入框，显示文本域输入框");
+      this.showInput = true;
+    },
   },
   mounted() {
     this.loadDetail();
+  },
+  components: {
+    CommentInput,
   },
 };
 </script>
@@ -394,50 +422,50 @@ export default {
         padding: 10/360 * 100vw 20/360 * 100vw;
       }
     }
-    .writeinp {
-      position: fixed;
-      display: flex;
-      z-index: 100;
-      background: #f2f2f2;
-      bottom: 0;
-      width: 100vw;
-      border-top: 2px solid #e4e4e4;
-      height: 60/360 * 100vw;
-      .inpCon {
-        line-height: 60/360 * 100vw;
-        padding: 0 24/360 * 100vw;
-        input {
-          height: 30/360 * 100vw;
-          border-radius: 15/360 * 100vw;
-          background: #d7d7d7;
-          text-indent: 10/360 * 100vw;
-        }
-        .iconfont {
-          position: relative;
-          font-size: 22/360 * 100vw;
-          margin-left: 24/360 * 100vw;
-          vertical-align: middle;
-        }
-        .tienum {
-          position: absolute;
-          top: -6 /360 * 100vw;
-          right: -16 /360 * 100vw;
-          height: 15/360 * 100vw;
-          line-height: 15/360 * 100vw;
-          background: red;
-          color: #fff;
-          padding: 0 4/360 * 100vw;
-          border-radius: 20/360 * 100vw;
-          font-size: 12/360 * 100vw;
-        }
-        .isStar {
-          font-size: 28/360 * 100vw;
-        }
-        .active {
-          color: gold;
-        }
-      }
-    }
+    // .writeinp {
+    //   position: fixed;
+    //   display: flex;
+    //   z-index: 100;
+    //   background: #f2f2f2;
+    //   bottom: 0;
+    //   width: 100vw;
+    //   border-top: 2px solid #e4e4e4;
+    //   height: 60/360 * 100vw;
+    //   .inpCon {
+    //     line-height: 60/360 * 100vw;
+    //     padding: 0 24/360 * 100vw;
+    //     input {
+    //       height: 30/360 * 100vw;
+    //       border-radius: 15/360 * 100vw;
+    //       background: #d7d7d7;
+    //       text-indent: 10/360 * 100vw;
+    //     }
+    //     .iconfont {
+    //       position: relative;
+    //       font-size: 22/360 * 100vw;
+    //       margin-left: 24/360 * 100vw;
+    //       vertical-align: middle;
+    //     }
+    //     .tienum {
+    //       position: absolute;
+    //       top: -6 /360 * 100vw;
+    //       right: -16 /360 * 100vw;
+    //       height: 15/360 * 100vw;
+    //       line-height: 15/360 * 100vw;
+    //       background: red;
+    //       color: #fff;
+    //       padding: 0 4/360 * 100vw;
+    //       border-radius: 20/360 * 100vw;
+    //       font-size: 12/360 * 100vw;
+    //     }
+    //     .isStar {
+    //       font-size: 28/360 * 100vw;
+    //     }
+    //     .active {
+    //       color: gold;
+    //     }
+    //   }
+    // }
   }
 }
 </style>
