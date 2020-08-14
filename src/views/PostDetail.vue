@@ -134,8 +134,14 @@ export default {
       console.log("评论");
     },
     collection() {
-      console.log("收藏");
-      this.isStar = !this.isStar;
+      this.$axios({
+        url: "/post_star/" + 3,
+        method: "GET",
+      }).then((res) => {
+        console.log(res);
+        this.isStar = !this.isStar;
+        this.$toast.success(res.data.message);
+      });
     },
     share() {
       console.log("分享");
@@ -146,7 +152,6 @@ export default {
         url: "/post/" + this.$route.query.id,
         method: "get",
       }).then((res) => {
-        console.log("请求文章接口");
         console.log(res.data.data);
         this.type = res.data.data.type;
         this.title = res.data.data.title;
@@ -162,11 +167,7 @@ export default {
           url: "/user_follows",
           method: "get",
         }).then((res) => {
-          console.log("判断该出版人是否被关注");
-          console.log(res.data.data);
-          console.log(isAttention);
           res.data.data.forEach((item) => {
-            console.log(item);
             if (item.id == isAttention.id) {
               this.isAttention = true;
             }
