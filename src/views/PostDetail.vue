@@ -49,9 +49,9 @@
     <!-- 点赞微信 -->
     <div class="detailBot">
       <div class="left">
-        <span class="dianzan">
+        <span class="dianzan" :class="isDianzan?'active':''" @click="ckLike">
           <i class="iconfont icon-dianzan"></i>
-          <i class="number">112</i>
+          <i class="number" style="margin-left:6px">{{like_length}}</i>
         </span>
       </div>
       <div class="right">
@@ -101,6 +101,8 @@ export default {
       userId: "",
       isAttention: false,
       AticelId: "",
+      like_length: "",
+      isDianzan: false,
     };
   },
   methods: {
@@ -147,6 +149,21 @@ export default {
     share() {
       console.log("分享");
     },
+    ckLike() {
+      this.$axios({
+        url: "/post_like/" + this.AticelId,
+        method: "GET",
+      }).then((res) => {
+        console.log(res);
+        this.isDianzan = !this.isDianzan;
+        this.$toast.success(res.data.message);
+        if (res.data.message == "点赞成功") {
+          this.like_length += 1;
+        } else {
+          this.like_length -= 1;
+        }
+      });
+    },
     loadDetail() {
       // 请求文章详情接口
       this.$axios({
@@ -164,7 +181,11 @@ export default {
         this.userId = res.data.data.user.id;
         this.AticelId = res.data.data.id;
         this.isStar = res.data.data.has_star;
+        this.like_length = res.data.data.like_length;
+        this.isDianzan = res.data.data.has_like;
+
         let isAttention = res.data.data.user;
+
         this.$axios({
           url: "/user_follows",
           method: "get",
@@ -345,6 +366,11 @@ export default {
           color: #00c200;
           font-size: 16/360 * 100vw;
         }
+      }
+      .active {
+        background: skyblue;
+        color: rgb(255, 255, 255);
+        border: #fff;
       }
     }
   }

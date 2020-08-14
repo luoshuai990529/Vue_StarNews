@@ -32,8 +32,11 @@
       <!-- 我的收藏 -->
       <peropt-temp :msg1="'我的收藏'" :msg2="'文章/视频'" @emitclick="handler('myStar')"></peropt-temp>
       <!-- 设置 -->
-      <peropt-temp :msg1="'设置'" :msg2="''" @emitclick="handler('跳转设置')"></peropt-temp>
+      <peropt-temp :msg1="'设置'" :msg2="''" @emitclick="handler('setting')"></peropt-temp>
       <peropt-temp :msg1="'退出'" :msg2="''" @emitclick="logout"></peropt-temp>
+      <p>
+        <button class="backIndex" @click="backIndex">回到首页</button>
+      </p>
     </div>
     <!-- 编辑子路由 -->
     <transition
@@ -86,6 +89,8 @@ export default {
         this.$router.push("/perinfo/attention");
       } else if (val == "myStar") {
         this.$router.push("/perinfo/mystar");
+      } else if (val == "setting") {
+        this.editInfo();
       }
     },
     logout() {
@@ -133,6 +138,11 @@ export default {
           this.userId = res.data.data.id;
         }
       });
+    },
+    backIndex() {
+      this.$router.push(
+        "/home?category=" + Number(localStorage.getItem("curCategoryIndex"))
+      );
     },
   },
   watch: {
@@ -261,6 +271,18 @@ export default {
         flex: 1;
         text-align: right;
         padding-right: 10/360 * 100vw;
+      }
+    }
+    > p {
+      text-align: center;
+      margin-top: 20/360 * 100vw;
+      .backIndex {
+        background: rgb(21, 159, 238);
+        color: #fff;
+        border: none;
+        border-radius: 24/360 * 100vw;
+        margin: 10/360 * 100vw auto;
+        padding: 10/360 * 100vw 40/360 * 100vw;
       }
     }
   }

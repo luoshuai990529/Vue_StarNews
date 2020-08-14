@@ -1,12 +1,10 @@
 <template>
   <div class="myStar">
-    <per-nav-temp :navtitle="'我的收藏'" @clickNav="backHandler('返回个人中心')"></per-nav-temp>
+    <div class="header">
+      <per-nav-temp :navtitle="'我的收藏'" @clickNav="backHandler('返回个人中心')"></per-nav-temp>
+    </div>
     <div class="postlist">
-      <post-temp
-        :postData="item"
-        v-for="(item, index2) in item"
-        :key="index2"
-      ></post-temp>
+      <post-temp :postData="item" v-for="(item, index2) in item" :key="index2"></post-temp>
     </div>
   </div>
 </template>
@@ -17,7 +15,7 @@ import PostTemp from "@/components/PostTemp.vue";
 export default {
   data() {
     return {
-        item:""
+      item: "",
     };
   },
   methods: {
@@ -33,7 +31,7 @@ export default {
       method: "get",
     }).then((res) => {
       console.log(res.data.data);
-      this.item = res.data.data ;
+      this.item = res.data.data;
     });
   },
   components: {
@@ -52,5 +50,13 @@ export default {
   bottom: 0;
   background: #f2f2f2;
   height: 100vh;
+  .header {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+  }
+  .postlist {
+    margin-top: 40/360 * 100vw;
+  }
 }
 </style>

@@ -212,6 +212,7 @@ export default {
   watch: {
     // 4.监听tab标签栏的变化 每次变化都会传过来一个索引值
     curIndex: function (index) {
+      localStorage.setItem("curCategoryIndex",this.$route.query.category)
       console.log(
         "-----------------执行监听器的curIndex方法--------------当前栏目的索引值是" +
           index
