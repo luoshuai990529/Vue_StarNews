@@ -100,6 +100,7 @@ export default {
       head_img: "",
       userId: "",
       isAttention: false,
+      AticelId: "",
     };
   },
   methods: {
@@ -135,7 +136,7 @@ export default {
     },
     collection() {
       this.$axios({
-        url: "/post_star/" + 3,
+        url: "/post_star/" + this.AticelId,
         method: "GET",
       }).then((res) => {
         console.log(res);
@@ -161,7 +162,8 @@ export default {
         this.postImg = res.data.data.cover[0].url;
         this.head_img = res.data.data.user.head_img;
         this.userId = res.data.data.user.id;
-
+        this.AticelId = res.data.data.id;
+        this.isStar = res.data.data.has_star;
         let isAttention = res.data.data.user;
         this.$axios({
           url: "/user_follows",

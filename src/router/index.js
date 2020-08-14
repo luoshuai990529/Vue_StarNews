@@ -10,6 +10,7 @@ import EditInfo from "@/views/Personal/EditInfo.vue"
 import Attention from "@/views/Personal/Attention.vue"
 import TestApi from "@/views/TestApi.vue"
 import PostDetail from "@/views/PostDetail.vue"
+import myStar from "@/views/Personal/myStar.vue"
 Vue.use(VueRouter)
 
 const routes = [{
@@ -57,6 +58,15 @@ const routes = [{
         path: "attention",
         components: {
           AttentionTemp: Attention
+        },
+        meta: {
+          needAuth: true
+        },
+      },
+      {
+        path: "mystar",
+        components: {
+          myStarTemp: myStar
         },
         meta: {
           needAuth: true
