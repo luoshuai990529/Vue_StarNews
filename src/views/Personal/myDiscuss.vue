@@ -28,7 +28,7 @@ export default {
   right: 0;
   bottom: 0;
   background: #f2f2f2;
-  height: 100vh;
+  min-height: 100vh;
   .header {
     position: fixed;
     top: 0;

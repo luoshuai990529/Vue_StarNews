@@ -36,15 +36,18 @@ export default {
       content: "",
     };
   },
-  props: ["isStar", "tienum", "showInput"],
+  props: ["isStar", "tienum", "showInput", "repParentId"],
   computed: {},
   methods: {
+    // 评论
     discussEmit() {
       this.$emit("discuss");
     },
+    // 收藏
     collectionEmit() {
       this.$emit("collection");
     },
+    // 分享
     shareEmit() {
       this.$emit("share");
     },
@@ -52,6 +55,7 @@ export default {
     //   console.log("失去焦点");
     //   this.showInput = false;
     // },
+    // 评论方法
     sendDiscuss() {
       if (this.content.trim() == "") {
         this.$toast("请不要输入空值");
@@ -63,6 +67,7 @@ export default {
         method: "post",
         data: {
           content: this.content,
+          parent_id: this.repParentId || null,
         },
       }).then((res) => {
         console.log(res);

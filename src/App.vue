@@ -21,9 +21,12 @@
       enter-active-class="animated bounceInRight"
       leave-active-class="animated bounceOutRight">
       <router-view name="EditInfoTemp"></router-view>
-    </transition> -->
+    </transition>-->
     <router-view name="TestTemp"></router-view>
     <router-view name="PostDetialTemp"></router-view>
+
+    <!-- 跟多跟帖组件 -->
+    <router-view name="MoreCommentTemp"></router-view>
   </div>
 </template>
 

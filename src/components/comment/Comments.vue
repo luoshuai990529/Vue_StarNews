@@ -10,12 +10,12 @@
         <span class="comTime">{{beforTime}}</span>
       </div>
       <div class="reply">
-        <a href="#" @click.stop.prevent="sendReply">回复</a>
+        <a href="#" @click.stop.prevent="sendReply(comment.id)" :data-id="comment.id">回复</a>
       </div>
     </div>
     <!-- 楼层内容 -->
     <div class="floor" v-if="comment.parent">
-      <parent :floorList="comment.parent"></parent>
+      <parent :floorList="comment.parent" @clickReply="sendReply" :level="FloorLevel"></parent>
     </div>
     <!-- 回复内容 -->
     <div class="content">{{comment.content}}</div>
@@ -31,19 +31,20 @@ export default {
     return {};
   },
   computed: {
+    // 计算回复时间
     beforTime() {
       let floorDate = new Date(this.comment.create_date)
         .toLocaleDateString()
         .split("/");
       let nowDate = new Date().toLocaleDateString().split("/");
       if (nowDate[0] - floorDate[0] != 0) {
-        return nowDate[0] - floorDate[0]+"年前";
+        return nowDate[0] - floorDate[0] + "年前";
       }
       if (nowDate[1] - floorDate[1] != 0) {
-        return nowDate[1] - floorDate[1]+"月前";
+        return nowDate[1] - floorDate[1] + "月前";
       }
       if (nowDate[2] - floorDate[2] != 0) {
-        return nowDate[2] - floorDate[2]+"天前";
+        return nowDate[2] - floorDate[2] + "天前";
       }
       let floorTime = new Date(this.comment.create_date)
         .toLocaleTimeString()
@@ -53,18 +54,32 @@ export default {
         .toLocaleTimeString()
         .split(":")[0]
         .split("午")[1];
-      return nowTime - floorTime+"小时前";
+      let lastTime =
+        nowTime - floorTime == 0 ? "1小时内" : nowTime - floorTime + "小时前";
+      return lastTime;
+    },
+    // 计算楼层深度:传入当前这条评论的comment.parent 当前楼层为0，如果有parent则每次+1
+    FloorLevel() {
+      return this.calcuFloorDeep(this.comment.parent, 0);
     },
   },
   methods: {
-    sendReply() {
-      this.$emit("clickReply");
+    sendReply(val) {
+      this.$emit("clickReply", val);
+    },
+    calcuFloorDeep(floorParent, currDeep) {
+      if (floorParent) {
+        return this.calcuFloorDeep(floorParent.parent, currDeep + 1);
+      } else {
+        return currDeep;
+      }
     },
   },
   components: {
     Parent,
   },
   mounted() {
+    console.log(this.comment);
   },
 };
 </script>
@@ -72,11 +87,11 @@ export default {
 <style lang="less" scoped>
 .comments {
   border-bottom: 1px solid #d1d0d0;
+
   // 回复用户
   .comUser {
     padding: 25/360 * 100vw 20/360 * 100vw 10/360 * 100vw;
-    > div {
-    }
+
     display: flex;
     .headImg {
       flex: 1;

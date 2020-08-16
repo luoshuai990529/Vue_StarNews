@@ -196,7 +196,7 @@ export default {
 
 <style lang="less" scoped>
 .perInfo {
-  height: 100vh;
+  min-height: 100vh;
 
   /* 个人头像信息样式 */
   .icon-youjiantou {

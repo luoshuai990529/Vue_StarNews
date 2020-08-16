@@ -12,6 +12,7 @@ import TestApi from "@/views/TestApi.vue"
 import PostDetail from "@/views/PostDetail.vue"
 import myStar from "@/views/Personal/myStar.vue"
 import myDiscuss from "@/views/Personal/myDiscuss.vue"
+import MoreComments from "@/views/MoreComments.vue"
 Vue.use(VueRouter)
 
 const routes = [{
@@ -101,6 +102,16 @@ const routes = [{
     path: "/postdetail",
     components: {
       PostDetialTemp: PostDetail
+    },
+    meta: {
+      needAuth: true
+    },
+  },
+  {
+    name: "MoreComments",
+    path: "/morecomments",
+    components: {
+      MoreCommentTemp: MoreComments
     },
     meta: {
       needAuth: true

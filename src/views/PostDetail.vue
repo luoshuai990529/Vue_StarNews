@@ -66,27 +66,25 @@
       <h3>精彩跟帖</h3>
       <!-- 跟帖内容组件 显示三条 -->
       <div class="followList">
-        <comments
-          v-for="(comment, index) in commentList"
-          :key="index"
-          @clickReply="discuss"
-          :comment="comment"
-        ></comments>
+        <div v-for="(comment, index) in commentList" :key="index">
+          <comments @clickReply="discuss" :comment="comment" v-if="index<3"></comments>
+        </div>
       </div>
       <p class="more">
-        <a href="#">更多跟帖</a>
+        <a href="#" @click.stop.prevent="moreComments">更多跟帖</a>
       </p>
       <!-- 评论跟帖组件 -->
       <!-- @sendClickArea="clickInput" -->
       <!-- @discuss="discuss" -->
       <commentInput
-        :tienum="121"
+        :tienum="commentsTotal"
         :isStar="isStar"
         :showInput="showInput"
         @discuss="discuss"
         @collection="collection"
         @share="share"
         @sendContent="loadComments"
+        :repParentId="repParentId"
       ></commentInput>
     </div>
   </div>
@@ -95,6 +93,8 @@
 <script>
 import CommentInput from "@/components/comment/CommentInput.vue";
 import Comments from "@/components/comment/Comments.vue";
+// 引入跟多跟帖组件
+import MoreComments from "@/views/MoreComments.vue";
 export default {
   data() {
     return {
@@ -104,15 +104,17 @@ export default {
       content: "",
       nickname: "",
       postImg: "",
-      isStar: false,
       head_img: "",
       userId: "",
       isAttention: false,
       AticelId: "",
       like_length: "",
       isDianzan: false,
-      showInput: false,
       commentList: [],
+      repParentId: "",
+      commentsTotal: 0,
+      isStar: false,
+      showInput: false,
     };
   },
   methods: {
@@ -145,8 +147,11 @@ export default {
       // 发送关注ajax请求
     },
     // 点击评论和输入框显示文本域方法
-    discuss() {
-      console.log("点击了输入框，显示文本域输入框");
+    discuss(val) {
+      // console.log("点击了输入框，显示文本域输入框");
+      console.log("回复文章的id为" + val);
+      // 将回复文章的id传给CommentInput子组件
+      this.repParentId = val;
       this.showInput = true;
     },
     // 收藏方法
@@ -233,6 +238,14 @@ export default {
       }).then((res) => {
         console.log(res.data.data);
         this.commentList = res.data.data;
+        this.commentsTotal = res.data.data.length;
+      });
+    },
+    // 跳转更多跟帖页面函数
+    moreComments() {
+      this.$router.push({
+        path: "/morecomments",
+        query: { articleId: this.$route.query.id },
       });
     },
   },
@@ -245,6 +258,7 @@ export default {
   components: {
     CommentInput,
     Comments,
+    MoreComments,
   },
 };
 </script>
