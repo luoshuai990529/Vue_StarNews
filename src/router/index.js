@@ -11,6 +11,7 @@ import Attention from "@/views/Personal/Attention.vue"
 import TestApi from "@/views/TestApi.vue"
 import PostDetail from "@/views/PostDetail.vue"
 import myStar from "@/views/Personal/myStar.vue"
+import myDiscuss from "@/views/Personal/myDiscuss.vue"
 Vue.use(VueRouter)
 
 const routes = [{
@@ -71,6 +72,15 @@ const routes = [{
         meta: {
           needAuth: true
         },
+      },
+      {
+        path: "mydiscuss",
+        components: {
+          myDiscussTemp: myDiscuss
+        },
+        meta: {
+          needAuth: true
+        },
       }
     ]
   }, {
@@ -91,7 +101,10 @@ const routes = [{
     path: "/postdetail",
     components: {
       PostDetialTemp: PostDetail
-    }
+    },
+    meta: {
+      needAuth: true
+    },
   }
 ]
 

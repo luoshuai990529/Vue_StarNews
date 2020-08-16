@@ -28,7 +28,7 @@
       <!-- 我的关注 -->
       <peropt-temp :msg1="'我的关注'" :msg2="'关注的用户'" @emitclick="handler('Attention')"></peropt-temp>
       <!-- 我的跟帖 -->
-      <peropt-temp :msg1="'我的跟帖'" :msg2="'跟帖/回复'" @emitclick="handler('跳转跟帖回复')"></peropt-temp>
+      <peropt-temp :msg1="'我的跟帖'" :msg2="'跟帖/回复'" @emitclick="handler('myDiscuss')"></peropt-temp>
       <!-- 我的收藏 -->
       <peropt-temp :msg1="'我的收藏'" :msg2="'文章/视频'" @emitclick="handler('myStar')"></peropt-temp>
       <!-- 设置 -->
@@ -58,6 +58,13 @@
       leave-active-class="animated bounceOutRight"
     >
       <router-view name="myStarTemp"></router-view>
+    </transition>
+    <!-- 我的跟帖回复子路由 -->
+    <transition
+      enter-active-class="animated bounceInRight"
+      leave-active-class="animated bounceOutRight"
+    >
+      <router-view name="myDiscussTemp"></router-view>
     </transition>
   </div>
 </template>
@@ -91,6 +98,8 @@ export default {
         this.$router.push("/perinfo/mystar");
       } else if (val == "setting") {
         this.editInfo();
+      } else if (val == "myDiscuss") {
+        this.$router.push("/perinfo/mydiscuss");
       }
     },
     logout() {

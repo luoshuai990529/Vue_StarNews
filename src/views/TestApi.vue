@@ -21,7 +21,10 @@
         <van-cell v-for="item in list" :key="item" :title="item" />
       </div>
     </van-list>-->
-    <digui :num="3"></digui>
+    <h3>组件递归</h3>
+    <div class="digui">
+      <digui :data="data"></digui>
+    </div>
   </div>
 </template>
 
@@ -30,7 +33,45 @@ import Digui from "@/components/Digui.vue";
 export default {
   data() {
     return {
-      list: [],
+      list: [
+        {
+          type: "服装",
+          children: [
+            {
+              type: "男装",
+              children: [{ type: "T恤" }, { type: "背心" }],
+            },
+            {
+              type: "女装",
+              children: [
+                { type: "吊带裙" },
+                { type: "连衣裙" },
+                { type: "背带裤" },
+              ],
+            },
+          ],
+        },
+        {
+          type: "电器",
+          children: [{ type: "风扇" }, { type: "冰箱" }],
+        },
+      ],
+      data: [
+        {
+          content: "我真是醉了",
+          parent: [
+            {
+              content: "庙里有个老和尚",
+              parent: [
+                {
+                  content: "山里有座庙",
+                  parent: [{ content: "从先有座山" }],
+                },
+              ],
+            },
+          ],
+        },
+      ],
       loading: false,
       finished: false,
     };
@@ -88,5 +129,8 @@ export default {
 .star {
   width: 20vw;
   height: 20vw;
+}
+.digui {
+  padding: 20px;
 }
 </style>

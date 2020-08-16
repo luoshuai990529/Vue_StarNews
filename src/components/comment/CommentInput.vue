@@ -16,7 +16,7 @@
     </div>
     <!-- 输入框获取焦点，或者点击评论图标 -->
     <div class="textareaInput" v-if="showInput">
-      <textarea class="writeCon" v-focus name id></textarea>
+      <textarea class="writeCon" v-focus name id v-model="content"></textarea>
       <button class="sendBtn" @click.stop="sendDiscuss">发送</button>
     </div>
   </div>
@@ -32,7 +32,9 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      content: "",
+    };
   },
   props: ["isStar", "tienum", "showInput"],
   computed: {},
@@ -46,12 +48,30 @@ export default {
     shareEmit() {
       this.$emit("share");
     },
-    showInpCon() {
-      console.log("失去焦点");
-      this.showInput = false;
-    },
+    // showInpCon() {
+    //   console.log("失去焦点");
+    //   this.showInput = false;
+    // },
     sendDiscuss() {
+      if (this.content.trim() == "") {
+        this.$toast("请不要输入空值");
+        return;
+      }
       console.log("发送信息");
+      this.$axios({
+        url: "/post_comment/" + this.$route.query.id,
+        method: "post",
+        data: {
+          content: this.content,
+        },
+      }).then((res) => {
+        console.log(res);
+        this.$toast.success(res.data.message);
+        // 清空数据
+        this.content = "";
+        // 传递事件给父组件
+        this.$emit("sendContent");
+      });
     },
     handler() {
       //   console.log("点击了输入组件");

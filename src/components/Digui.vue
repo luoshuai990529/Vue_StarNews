@@ -1,8 +1,18 @@
 <template>
-  <div class="box">
+  <div class="item">
     <!-- 只要num大于0，就不断的调用自己渲染num -->
-    <Digui :num="num-1" v-if="num>0" />
-    {{num}}
+    <!-- <Digui :num="num-1" v-if="num>0" />
+    {{num}}-->
+    <!-- <div v-for="(item, index) in list" :key="index">
+      {{item.type}}
+      <digui :list="item.children" v-if="item.children"></digui>
+    </div>-->
+    <div v-for="(item, index) in data" :key="index">
+      <digui :data="item.parent" v-if="item.parent"></digui>
+      <p>{{item.content}}</p>
+
+      <!-- <div v-if="data.parent.content">{{data.parent.content}}</div> -->
+    </div>
   </div>
 </template>
 
@@ -15,13 +25,27 @@
 */
 export default {
   name: "Digui",
-  props: ["num"],
+  data() {
+    return {
+      num: 1,
+    };
+  },
+  props: ["list", "data"],
+  components: {},
+  mounted() {
+    console.log(this.data);
+  },
 };
 </script>
 
 <style lang="less" scoped>
-.box {
+.item {
+  overflow: hidden;
+}
+.item > div {
+  // margin-left: 20px;
   border: 1px solid hotpink;
-  padding: 10px;
+  padding: 10px 0 10px;
+  margin: 10px;
 }
 </style>

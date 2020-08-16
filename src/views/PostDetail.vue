@@ -64,12 +64,21 @@
     <!-- 精彩跟帖 -->
     <div class="followUp">
       <h3>精彩跟帖</h3>
-      <!-- 跟帖内容 显示三条 -->
-      <div class="followList"></div>
+      <!-- 跟帖内容组件 显示三条 -->
+      <div class="followList">
+        <comments
+          v-for="(comment, index) in commentList"
+          :key="index"
+          @clickReply="discuss"
+          :comment="comment"
+        ></comments>
+      </div>
       <p class="more">
         <a href="#">更多跟帖</a>
       </p>
       <!-- 评论跟帖组件 -->
+      <!-- @sendClickArea="clickInput" -->
+      <!-- @discuss="discuss" -->
       <commentInput
         :tienum="121"
         :isStar="isStar"
@@ -77,29 +86,15 @@
         @discuss="discuss"
         @collection="collection"
         @share="share"
-        @sendClickArea="clickInput"
+        @sendContent="loadComments"
       ></commentInput>
-      <!-- <div class="writeinp">
-        <div class="inpCon">
-          <input type="text" placeholder="写跟帖" />
-          <i class="iconfont icon-pinglun" @click="discuss">
-            <span class="tienum">121</span>
-          </i>
-          <i
-            class="iconfont isStar"
-            @click="collection"
-            v-text="isStar?'★':'☆'"
-            :class="isStar?'active':''"
-          ></i>
-          <i class="iconfont icon-share_icon" @click="share"></i>
-        </div>
-      </div>-->
     </div>
   </div>
 </template>
 
 <script>
 import CommentInput from "@/components/comment/CommentInput.vue";
+import Comments from "@/components/comment/Comments.vue";
 export default {
   data() {
     return {
@@ -117,9 +112,11 @@ export default {
       like_length: "",
       isDianzan: false,
       showInput: false,
+      commentList: [],
     };
   },
   methods: {
+    // 关注方法
     AttentionTo() {
       if (this.isAttention) {
         console.log("取消关注" + this.userId);
@@ -147,10 +144,12 @@ export default {
       this.isAttention = !this.isAttention;
       // 发送关注ajax请求
     },
+    // 点击评论和输入框显示文本域方法
     discuss() {
       console.log("点击了输入框，显示文本域输入框");
       this.showInput = true;
     },
+    // 收藏方法
     collection() {
       this.$axios({
         url: "/post_star/" + this.AticelId,
@@ -161,9 +160,11 @@ export default {
         this.$toast.success(res.data.message);
       });
     },
+    // 分享方法
     share() {
       console.log("分享");
     },
+    // 点赞方法
     ckLike() {
       this.$axios({
         url: "/post_like/" + this.AticelId,
@@ -179,6 +180,7 @@ export default {
         }
       });
     },
+    // 加载文章详情
     loadDetail() {
       // 请求文章详情接口
       this.$axios({
@@ -219,16 +221,30 @@ export default {
       this.showInput = false;
     },
     // 点击输入框组件，显示文本域输入框
-    clickInput() {
-      console.log("点击了输入框，显示文本域输入框");
-      this.showInput = true;
+    // clickInput() {
+    //   console.log("点击了输入框，显示文本域输入框");
+    //   this.showInput = true;
+    // },
+    // 加载评论的方法
+    loadComments() {
+      this.$axios({
+        url: "/post_comment/" + this.$route.query.id,
+        method: "get",
+      }).then((res) => {
+        console.log(res.data.data);
+        this.commentList = res.data.data;
+      });
     },
   },
   mounted() {
+    //加载文章详情
     this.loadDetail();
+    // 加载文章评论列表
+    this.loadComments();
   },
   components: {
     CommentInput,
+    Comments,
   },
 };
 </script>
@@ -405,7 +421,8 @@ export default {
   // 跟帖
   .followUp {
     margin-top: 20/360 * 100vw;
-    height: 240/360 * 100vw;
+    padding-bottom: 40/360 * 100vw;
+    min-height: 280/360 * 100vw;
     border-top: 5px solid #e4e4e4;
     h3 {
       text-align: center;
@@ -413,8 +430,14 @@ export default {
       font-size: 22/360 * 100vw;
       margin-top: 20/360 * 100vw;
     }
+    .followList {
+      margin-top: 20/360 * 100vw;
+    }
     .more {
+      // border-top: 1px solid rgb(173, 173, 173);
+      padding-top: 20/360 * 100vw;
       margin-top: 40/360 * 100vw;
+      margin-bottom: 100/360 * 100vw;
       text-align: center;
       > a {
         border: 1px solid #8f8f8f;
@@ -422,50 +445,6 @@ export default {
         padding: 10/360 * 100vw 20/360 * 100vw;
       }
     }
-    // .writeinp {
-    //   position: fixed;
-    //   display: flex;
-    //   z-index: 100;
-    //   background: #f2f2f2;
-    //   bottom: 0;
-    //   width: 100vw;
-    //   border-top: 2px solid #e4e4e4;
-    //   height: 60/360 * 100vw;
-    //   .inpCon {
-    //     line-height: 60/360 * 100vw;
-    //     padding: 0 24/360 * 100vw;
-    //     input {
-    //       height: 30/360 * 100vw;
-    //       border-radius: 15/360 * 100vw;
-    //       background: #d7d7d7;
-    //       text-indent: 10/360 * 100vw;
-    //     }
-    //     .iconfont {
-    //       position: relative;
-    //       font-size: 22/360 * 100vw;
-    //       margin-left: 24/360 * 100vw;
-    //       vertical-align: middle;
-    //     }
-    //     .tienum {
-    //       position: absolute;
-    //       top: -6 /360 * 100vw;
-    //       right: -16 /360 * 100vw;
-    //       height: 15/360 * 100vw;
-    //       line-height: 15/360 * 100vw;
-    //       background: red;
-    //       color: #fff;
-    //       padding: 0 4/360 * 100vw;
-    //       border-radius: 20/360 * 100vw;
-    //       font-size: 12/360 * 100vw;
-    //     }
-    //     .isStar {
-    //       font-size: 28/360 * 100vw;
-    //     }
-    //     .active {
-    //       color: gold;
-    //     }
-    //   }
-    // }
   }
 }
 </style>
