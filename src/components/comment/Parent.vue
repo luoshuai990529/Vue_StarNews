@@ -14,7 +14,7 @@
         <span class="nickname">{{floorList.user.nickname}}</span>
         <span class="time">{{beforTime}}</span>
         <span class="reply">
-          <a href="#" @click.prevent.stop="sendReply(floorList.id)" :data-id="floorList.id">回复</a>
+          <a href="#" @click.prevent.stop="sendReply(floorList.id,floorList.user.nickname)" :data-id="floorList.id">回复</a>
         </span>
       </div>
       <!-- 评论内容 -->
@@ -32,6 +32,7 @@ export default {
   },
   mounted() {},
   computed: {
+    // 计算回复的时间
     beforTime() {
       let floorDate = new Date(this.floorList.create_date)
         .toLocaleDateString()
@@ -60,8 +61,9 @@ export default {
     },
   },
   methods: {
-    sendReply(val) {
-      this.$emit("clickReply", val);
+    // 向父组件传递自定义事件，并且附带回复用户的ID值
+    sendReply(val,repname) {
+      this.$emit("clickReply", val,repname);
     },
   },
 };

@@ -1,6 +1,7 @@
 <template>
   <!-- 输入框没有获取焦点 -->
   <div class="writeinp" :class="showInput?'showTextArea':''" @click.stop="handler">
+    
     <div class="inpCon" v-if="!showInput">
       <input type="text" placeholder="写跟帖" @focus="discussEmit" />
       <i class="iconfont icon-pinglun" @click.stop="discussEmit">
@@ -17,8 +18,11 @@
     <!-- 输入框获取焦点，或者点击评论图标 -->
     <div class="textareaInput" v-if="showInput">
       <textarea class="writeCon" v-focus name id v-model="content"></textarea>
-      <button class="sendBtn" @click.stop="sendDiscuss" >发送</button>
+      <button class="sendBtn" @click.stop="sendDiscuss">发送</button>
+      <!-- 写一个盒子，来放当前回复的是哪一个用户，用定位定到文本域 -->
+      <div v-if="!content&&repname" class="repwho">回复:@{{repname}}</div>
     </div>
+
   </div>
 </template>
 
@@ -36,7 +40,7 @@ export default {
       content: "",
     };
   },
-  props: ["isStar", "tienum", "showInput", "repParentId"],
+  props: ["isStar", "tienum", "showInput", "repParentId", "repname"],
   computed: {},
   methods: {
     // 评论
@@ -131,27 +135,40 @@ export default {
       color: gold;
     }
   }
-  .writeCon {
-    resize: none;
-    border-radius: 4/360 * 100vw;
-    border: none;
-    font-size: 16/360 * 100vw;
-    width: 220/360 * 100vw;
-    height: 90/360 * 100vw;
-    background: #d7d7d7;
-    padding: 10/360 * 100vw;
-  }
-  .sendBtn {
-    position: absolute;
-    right: 30/360 * 100vw;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 7/360 * 100vw 17/360 * 100vw;
-    background: rgb(63, 186, 235);
-    border: none;
-    font-size: 14/360 * 100vw;
-    color: #fff;
-    border-radius: 20/360 * 100vw;
+  .textareaInput {
+    position: relative;
+    .writeCon {
+      resize: none;
+      border-radius: 4/360 * 100vw;
+      border: none;
+      font-size: 16/360 * 100vw;
+      width: 220/360 * 100vw;
+      height: 90/360 * 100vw;
+      background: #d7d7d7;
+      padding: 10/360 * 100vw;
+    }
+    .sendBtn {
+      position: absolute;
+      right: -100/360 * 100vw;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 7/360 * 100vw 17/360 * 100vw;
+      background: rgb(63, 186, 235);
+      border: none;
+      font-size: 14/360 * 100vw;
+      color: #fff;
+      border-radius: 20/360 * 100vw;
+    }
+    // 显示回复谁的div样式
+    .repwho {
+      display: inline-block;
+      position: absolute;
+      z-index: 1;
+      top: 8/360 * 100vw;
+      left: 14/360 * 100vw;
+      font-size: 16/360 * 100vw;
+      color: #949494;
+    }
   }
 }
 .showTextArea {

@@ -10,7 +10,7 @@
         <span class="comTime">{{beforTime}}</span>
       </div>
       <div class="reply">
-        <a href="#" @click.stop.prevent="sendReply(comment.id)" :data-id="comment.id">回复</a>
+        <a href="#" @click.stop.prevent="sendReply(comment.id,comment.user.nickname)" :data-id="comment.id">回复</a>
       </div>
     </div>
     <!-- 楼层内容 -->
@@ -64,9 +64,11 @@ export default {
     },
   },
   methods: {
-    sendReply(val) {
-      this.$emit("clickReply", val);
+    // 向父组件传递自定义事件，并绑定当前回复的用户ID
+    sendReply(val,repname) {
+      this.$emit("clickReply", val,repname);
     },
+    // 计算楼层深度
     calcuFloorDeep(floorParent, currDeep) {
       if (floorParent) {
         return this.calcuFloorDeep(floorParent.parent, currDeep + 1);

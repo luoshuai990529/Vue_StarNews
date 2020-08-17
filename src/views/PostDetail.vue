@@ -85,6 +85,7 @@
         @share="share"
         @sendContent="loadComments"
         :repParentId="repParentId"
+        :repname="repname"
       ></commentInput>
     </div>
   </div>
@@ -115,6 +116,7 @@ export default {
       commentsTotal: 0,
       isStar: false,
       showInput: false,
+      repname: "",
     };
   },
   methods: {
@@ -147,12 +149,15 @@ export default {
       // 发送关注ajax请求
     },
     // 点击评论和输入框显示文本域方法
-    discuss(val) {
+    discuss(val, repname) {
       // console.log("点击了输入框，显示文本域输入框");
       console.log("回复文章的id为" + val);
+      console.log("回复的用户name为：" + repname);
       // 将回复文章的id传给CommentInput子组件
       this.repParentId = val;
       this.showInput = true;
+      // 将回复的用户name传给CommentInput组组件
+      this.repname = repname;
     },
     // 收藏方法
     collection() {

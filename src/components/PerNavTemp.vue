@@ -24,6 +24,7 @@ export default {
 <style lang="less" scoped>
 .edithead {
   position: relative;
+  z-index: 999;
   text-align: center;
   line-height: 48/360 * 100vw;
   border-bottom: 1px solid #d0cfcf;
