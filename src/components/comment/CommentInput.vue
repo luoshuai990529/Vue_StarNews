@@ -17,7 +17,7 @@
     <!-- 输入框获取焦点，或者点击评论图标 -->
     <div class="textareaInput" v-if="showInput">
       <textarea class="writeCon" v-focus name id v-model="content"></textarea>
-      <button class="sendBtn" @click.stop="sendDiscuss">发送</button>
+      <button class="sendBtn" @click.stop="sendDiscuss" >发送</button>
     </div>
   </div>
 </template>

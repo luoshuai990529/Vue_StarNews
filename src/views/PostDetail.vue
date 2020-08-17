@@ -239,6 +239,7 @@ export default {
         console.log(res.data.data);
         this.commentList = res.data.data;
         this.commentsTotal = res.data.data.length;
+        this.showInput = false;
       });
     },
     // 跳转更多跟帖页面函数

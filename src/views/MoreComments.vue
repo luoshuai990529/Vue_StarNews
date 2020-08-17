@@ -10,7 +10,7 @@
         <comments @clickReply="discuss" :comment="comment"></comments>
       </div>
       <div class="botMsg">
-        <h4>已经到最底部啦</h4>
+        <h4>已经加载完毕啦</h4>
       </div>
     </div>
     <!-- 评论框 -->
@@ -114,6 +114,7 @@ export default {
   top: 0;
   left: 0;
   right: 0;
+  min-height: 100vh;
   background: #f6f6f6;
   z-index: 200;
   .header {
