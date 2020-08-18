@@ -188,7 +188,11 @@ export default {
       let index = this.curIndex;
       // 利用当前激活栏目的索引，获取当前的激活栏目
       let category = this.categoryList[index];
-      return category;
+      if (category) {
+        return category;
+      } else {
+        return this.categoryList[0];
+      }
     },
     // 改造栏目数据函数initCategory
     initCategory(res) {

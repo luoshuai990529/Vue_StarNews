@@ -82,7 +82,7 @@ export default {
           message: "你确定删除这一栏吗？",
         })
         .then(() => {
-          console.log("删除栏目的名字：" + categoryname+"id是："+id);
+          console.log("删除栏目的名字：" + categoryname + "id是：" + id);
           console.log("是否热门:" + istop);
           // 将删除的这个栏目 放入已删除的数组中，存入本地
           this.delCategoryList.push({
@@ -90,10 +90,6 @@ export default {
             name: categoryname,
             is_top: istop,
           });
-          localStorage.setItem(
-            "delCategoryList",
-            JSON.stringify(this.delCategoryList)
-          );
 
           // 删除这个类别，存入localstorage
           this.categoryList.forEach((item, index) => {
@@ -101,16 +97,12 @@ export default {
               this.categoryList.splice(index, 1);
             }
           });
-          localStorage.setItem(
-            "categoryList",
-            JSON.stringify(this.categoryList)
-          );
         })
         .catch(() => {});
     },
     // 添加栏目方法
     addCategory(id, categoryname, istop) {
-      console.log("添加栏目的名字：" + categoryname+"id是："+id);
+      console.log("添加栏目的名字：" + categoryname + "id是：" + id);
       console.log("是否热门：" + istop);
 
       //   添加现有的
@@ -119,12 +111,18 @@ export default {
           this.delCategoryList.splice(index, 1);
         }
       });
-      localStorage.setItem(
-        "delCategoryList",
-        JSON.stringify(this.delCategoryList)
-      );
+
       this.categoryList.push({ id: id, name: categoryname, is_top: istop });
-      localStorage.setItem("categoryList", JSON.stringify(this.categoryList));
+    },
+  },
+  watch: {
+    categoryList: function (val) {
+      console.log("监听到categoryList变化");
+      localStorage.setItem("categoryList", JSON.stringify(val));
+    },
+    delCategoryList: function (val) {
+      console.log("监听到delCategoryList变化");
+      localStorage.setItem("delCategoryList", JSON.stringify(val));
     },
   },
   mounted() {
