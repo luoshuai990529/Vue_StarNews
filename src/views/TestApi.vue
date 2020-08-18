@@ -25,6 +25,8 @@
     <div class="digui">
       <digui :data="data"></digui>
     </div>
+    <hr />
+    <button @click="delColumn">删除栏目</button>
   </div>
 </template>
 
@@ -92,6 +94,9 @@ export default {
           console.log(res.data.data);
         });
       });
+    },
+    delColumn() {
+     
     },
     sendAxios() {
       // 关注用户请求

@@ -31,6 +31,8 @@
       <peropt-temp :msg1="'我的跟帖'" :msg2="'跟帖/回复'" @emitclick="handler('myDiscuss')"></peropt-temp>
       <!-- 我的收藏 -->
       <peropt-temp :msg1="'我的收藏'" :msg2="'文章/视频'" @emitclick="handler('myStar')"></peropt-temp>
+      <!-- 栏目管理 -->
+      <peropt-temp :msg1="'栏目管理'" :msg2="'文章分类'" @emitclick="handler('Manager')"></peropt-temp>
       <!-- 设置 -->
       <peropt-temp :msg1="'设置'" :msg2="''" @emitclick="handler('setting')"></peropt-temp>
       <peropt-temp :msg1="'退出'" :msg2="''" @emitclick="logout"></peropt-temp>
@@ -66,6 +68,13 @@
     >
       <router-view name="myDiscussTemp"></router-view>
     </transition>
+    <!-- 栏目管理子路由 -->
+    <transition
+      enter-active-class="animated bounceInRight"
+      leave-active-class="animated bounceOutRight"
+    >
+      <router-view name="ManagerTemp"></router-view>
+    </transition>
   </div>
 </template>
 
@@ -100,6 +109,8 @@ export default {
         this.editInfo();
       } else if (val == "myDiscuss") {
         this.$router.push("/perinfo/mydiscuss");
+      }else if(val=="Manager"){
+        this.$router.push("/perinfo/columnmanager");
       }
     },
     logout() {

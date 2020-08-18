@@ -13,6 +13,7 @@ import PostDetail from "@/views/PostDetail.vue"
 import myStar from "@/views/Personal/myStar.vue"
 import myDiscuss from "@/views/Personal/myDiscuss.vue"
 import MoreComments from "@/views/MoreComments.vue"
+import ColManager from "@/views/Personal/columnManager.vue"
 Vue.use(VueRouter)
 
 const routes = [{
@@ -47,7 +48,16 @@ const routes = [{
     meta: {
       needAuth: true
     },
+    // 个人中心子路由columnManager.vue
     children: [{
+        path: "columnmanager",
+        components: {
+          ManagerTemp: ColManager
+        },
+        meta: {
+          needAuth: true
+        },
+      }, {
         path: "editinfo",
         components: {
           EditInfoTemp: EditInfo

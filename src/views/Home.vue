@@ -56,9 +56,9 @@
             </van-tab>
           </van-tabs>
         </div>
-        <div class="glide">
+        <!-- <div class="glide">
           <i class="iconfont icon-xiahua"></i>
-        </div>
+        </div>-->
       </div>
     </div>
     <!-- 新闻内容 -->
@@ -69,7 +69,7 @@
       leave-active-class="animated bounceOutRight"
     >
     <router-view name="PostDetailTemp"></router-view>
-    </transition> -->
+    </transition>-->
   </div>
 </template>
 
@@ -156,17 +156,29 @@ export default {
     },
     // 加载首页栏目
     loadCategory() {
-      this.$axios({
-        url: "/category",
-        method: "get",
-      }).then((res) => {
-        // 改造栏目数据，调用initCategory
-        console.log("1.1------调用initCategory改造栏目数据");
-        this.categoryList = this.initCategory(res);
-
+      // 先看本地有没有数据，没有再去请求接口
+      if (localStorage.getItem("categoryList")) {
+        this.categoryList = this.initCategory(
+          JSON.parse(localStorage.getItem("categoryList"))
+        );
+        console.log(this.categoryList);
         //发送loadPost请求文章数据
         this.loadPost();
-      });
+      } else {
+        this.$axios({
+          url: "/category",
+          method: "get",
+        }).then((res) => {
+          console.log(res.data.data);
+          // 将栏目数据存入到本地
+          localStorage.setItem("categoryList", JSON.stringify(res.data.data));
+          // 改造栏目数据，调用initCategory
+          console.log("1.1------调用initCategory改造栏目数据");
+          this.categoryList = this.initCategory(res.data.data);
+          //发送loadPost请求文章数据
+          this.loadPost();
+        });
+      }
     },
     // 获取category激活栏目的id
     getCurCategory() {
@@ -183,10 +195,10 @@ export default {
       console.log(
         "1.2---------在每个栏目中添加管理自己的文章数组postList，pageIndex当前页，pageSize页面长度，加载状态"
       );
-      const oldCategoryData = res.data.data;
-      console.log("改造之前的栏目老数据：oldCategoryData");
-      console.log(oldCategoryData);
-      const categoryList = res.data.data.map((item) => {
+      const oldCategoryData = res;
+      // console.log("改造之前的栏目老数据：oldCategoryData");
+      // console.log(oldCategoryData);
+      const categoryList = res.map((item) => {
         let newArr = {
           // 将所有的栏目数据用扩展运算符将每一项，都扩展到newArr中
           ...item,
@@ -199,8 +211,8 @@ export default {
         };
         return newArr;
       });
-      console.log("改造后的栏目数据:categoryList");
-      console.log(categoryList);
+      // console.log("改造后的栏目数据:categoryList");
+      // console.log(categoryList);
       console.log("1.3---------最后将改造后的栏目数据返回给this.categoryList");
       return categoryList;
     },
@@ -212,7 +224,7 @@ export default {
   watch: {
     // 4.监听tab标签栏的变化 每次变化都会传过来一个索引值
     curIndex: function (index) {
-      localStorage.setItem("curCategoryIndex",this.$route.query.category)
+      localStorage.setItem("curCategoryIndex", this.$route.query.category);
       console.log(
         "-----------------执行监听器的curIndex方法--------------当前栏目的索引值是" +
           index
