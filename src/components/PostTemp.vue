@@ -10,16 +10,16 @@
         <div class="info">{{postData.user.nickname}} {{postData.comment_length}}跟帖</div>
       </div>
       <div class="right">
-        <img :src="postData.cover[0].url" alt class="cover" />
+        <img :src="postData.cover[0].url | fixUrl" alt class="cover" />
       </div>
     </div>
     <!-- 如果postData的类型为1 并且 cover的长度大于3 那么就是多图片显示 -->
     <div class="multipImgs" v-if="postData.type == 1 && postData.cover.length >= 3">
       <div class="title">{{postData.title}}</div>
       <div class="coverWrapper">
-        <img class="coverImg" :src="postData.cover[0].url" alt />
-        <img class="coverImg" :src="postData.cover[1].url" alt />
-        <img class="coverImg" :src="postData.cover[2].url" alt />
+        <img class="coverImg" :src="postData.cover[0].url | fixUrl" alt />
+        <img class="coverImg" :src="postData.cover[1].url | fixUrl" alt />
+        <img class="coverImg" :src="postData.cover[2].url | fixUrl" alt />
       </div>
       <div class="info">{{postData.user.nickname}} {{postData.comment_length}}跟帖</div>
     </div>
@@ -27,7 +27,7 @@
     <div class="video" v-if="postData.type == 2 && postData.cover.length >= 1">
       <div class="title">{{postData.title}}</div>
       <div class="coverWrapper">
-        <img class="coverImg" :src="postData.cover[0].url" alt />
+        <img class="coverImg" :src="postData.cover[0].url | fixUrl" alt />
         <div class="playIconWrapper">
           <span class="iconfont icon-shiping"></span>
         </div>
@@ -39,6 +39,17 @@
 
 <script>
 export default {
+  filters: {
+    //  图片url过滤器
+    fixUrl(url) {
+      const reg = /^http/;
+      if (reg.test(url)) {
+        return url;
+      } else {
+        return "http://127.0.0.1:3000" + url;
+      }
+    },
+  },
   props: ["postData"],
   methods: {
     jumpDetail() {

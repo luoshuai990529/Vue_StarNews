@@ -188,6 +188,8 @@ export default {
       let index = this.curIndex;
       // 利用当前激活栏目的索引，获取当前的激活栏目
       let category = this.categoryList[index];
+      console.log('当前激活的栏目：');
+      console.log(category);
       if (category) {
         return category;
       } else {

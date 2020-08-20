@@ -338,8 +338,8 @@ export default {
       height: 180/360 * 100vw;
       object-fit: contain;
       img {
-        width: 100%;
-        height: 100%;
+        width: 325/360 * 100vw;
+        height: 180/360 * 100vw;
         // width: 330/360 * 100vw;
         // height: 180/360 * 100vw;
       }
@@ -348,7 +348,7 @@ export default {
       font-size: 16/360 * 100vw;
       margin-top: 10/360 * 100vw;
       line-height: 30/360 * 100vw;
-      /deep/ a > img {
+      /deep/  img {
         width: 325/360 * 100vw;
         height: 180/360 * 100vw;
       }
