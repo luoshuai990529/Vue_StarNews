@@ -122,6 +122,8 @@ export default {
           // 1.清理登录记录 包括token和userId
           localStorage.removeItem("token");
           localStorage.removeItem("userId");
+          localStorage.removeItem("categoryList")
+          localStorage.removeItem("delCategoryList")
           // 2.跳转到登录界面
           // this.$router.push("/login")
           // push后退回来还是个人中心，但是由于没有登录

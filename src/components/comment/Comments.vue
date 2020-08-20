@@ -3,7 +3,7 @@
     <!-- 评论用户信息 -->
     <div class="comUser">
       <div class="headImg">
-        <img src="../../assets/images/d1.jpg" alt />
+        <img :src="$axios.defaults.baseURL+comment.user.head_img" alt />
       </div>
       <div class="comMsg">
         <span class="nickname">{{comment.user.nickname}}</span>

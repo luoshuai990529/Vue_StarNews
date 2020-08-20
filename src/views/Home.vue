@@ -120,8 +120,8 @@ export default {
       let category = this.getCurCategory();
       let categoryId = category.id;
       console.log("当前激活栏目的id：" + categoryId);
-      // console.log("当前栏目的当前页："+category.pageIndex);
-      // console.log("当前栏目显示的文章数："+category.pageSize);
+      console.log("当前栏目的当前页："+category.pageIndex);
+      console.log("当前栏目显示的文章数："+category.pageSize);
       this.$axios({
         url: "/post",
         method: "get",
@@ -131,6 +131,7 @@ export default {
           pageSize: category.pageSize,
         },
       }).then((res) => {
+        console.log('文章数据——————————————————————————————');
         console.log(res.data);
         console.log(
           "2.2---------将category中的postList数组解构，以及获取的文章数据解构到数组重新赋值给category.postList"
@@ -143,7 +144,8 @@ export default {
 
         // 判断当前栏目文章的数据总长度是否小于category.pageSize即每页显示的文章数，如果小于则表示加载完毕
         console.log("2.4---------判断当前栏目的数据是否全部加载完毕");
-        if (res.data.total <= category.postList.length) {
+        console.log(category.postList.length);
+        if (res.data.total <= category.postList.length ||!res.data.total) {
           category.finished = true;
           console.log("2.4.1---------数据已经加载完毕");
         } else {
@@ -157,7 +159,7 @@ export default {
     // 加载首页栏目
     loadCategory() {
       // 先看本地有没有数据，没有再去请求接口
-      if (localStorage.getItem("categoryList")) {
+      if (localStorage.getItem("categoryList")&&localStorage.getItem("delCategoryList")) {
         this.categoryList = this.initCategory(
           JSON.parse(localStorage.getItem("categoryList"))
         );
@@ -165,6 +167,7 @@ export default {
         //发送loadPost请求文章数据
         this.loadPost();
       } else {
+       
         this.$axios({
           url: "/category",
           method: "get",
