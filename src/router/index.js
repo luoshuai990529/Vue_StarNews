@@ -1,19 +1,27 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// 导入登录和注册组件
-import Login from "@/views/Autho/Login.vue"
-import Register from "@/views/Autho/Register.vue"
-import Home from "@/views/Home.vue"
-import PerInfo from "@/views/Personal/PerInfo.vue"
-import SecInfo from "@/views/SecInfo.vue"
-import EditInfo from "@/views/Personal/EditInfo.vue"
-import Attention from "@/views/Personal/Attention.vue"
-import TestApi from "@/views/TestApi.vue"
-import PostDetail from "@/views/PostDetail.vue"
-import myStar from "@/views/Personal/myStar.vue"
-import myDiscuss from "@/views/Personal/myDiscuss.vue"
-import MoreComments from "@/views/MoreComments.vue"
-import ColManager from "@/views/Personal/columnManager.vue"
+// 导入组件
+const Home = () => {
+  // 在这里引入"../views/Home.vue"
+  // 函数声明时不会执行
+  // 调用的时候才会执行
+  // 效果就是这里的声明式并不会真正引入文件
+  // 只有跳转到某个页面触发路由，解析组建的时候才会执行这个函数真正的引入文件
+  return import("@/views/Home.vue")
+}
+// import Home from "@/views/Home.vue"
+const Login = () => {return import("@/views/Autho/Login.vue")}
+const Register = () => {return import("@/views/Autho/Register.vue")}
+const PerInfo = () => {return import("@/views/Personal/PerInfo.vue")}
+const SecInfo = () => {return import("@/views/SecInfo.vue")}
+const EditInfo = () => {return import("@/views/Personal/EditInfo.vue")}
+const Attention = () => {return import("@/views/Personal/Attention.vue")}
+const TestApi = () => {return import("@/views/TestApi.vue")}
+const PostDetail = () => {return import("@/views/PostDetail.vue")}
+const myStar = () => {return import("@/views/Personal/myStar.vue")}
+const myDiscuss = () => {return import("@/views/Personal/myDiscuss.vue")}
+const MoreComments = () => {return import("@/views/MoreComments.vue")}
+const ColManager = () => {return import("@/views/Personal/columnManager.vue")}
 Vue.use(VueRouter)
 
 const routes = [{

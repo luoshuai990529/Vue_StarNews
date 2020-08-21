@@ -5,14 +5,24 @@
     </div>
     <!-- 跟帖内容显示 -->
     <div class="myComments">
-      <div v-for="(item, index) in replyList" :key="index">
-        <discuss-temp
-          :create_date="item.create_date"
-          :content="item.content"
-          :repmsg="item.parent"
-          :post="item.post"
-        ></discuss-temp>
-      </div>
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        :immediate-check="false"
+        finished-text="没有更多了"
+        @load="loadMorePost"
+        :offset="100"
+      >
+        <div v-for="(item, index) in replyList" :key="index">
+          <!-- 跟帖组件 -->
+          <discuss-temp
+            :create_date="item.create_date"
+            :content="item.content"
+            :repmsg="item.parent"
+            :post="item.post"
+          ></discuss-temp>
+        </div>
+      </van-list>
     </div>
   </div>
 </template>
@@ -24,6 +34,10 @@ export default {
   data() {
     return {
       replyList: [],
+      pageIndex: 1,
+      pageSize: 6,
+      loading: false,
+      finished: false,
     };
   },
   components: {
@@ -34,16 +48,51 @@ export default {
     backHandler() {
       this.$router.back();
     },
+    // 页面到底部触发的函数
+    loadMorePost() {
+      console.log("页面到底部");
+      this.pageIndex += 1;
+      console.log('加载第'+this.pageIndex+"的数据");
+
+      setTimeout(() => {
+        this.loadDiscuss();
+      }, 1000);
+    },
+    // 加载我的跟帖数据
+    loadDiscuss() {
+      this.loading = true;
+      // 请求我的跟帖接口 渲染数据
+      this.$axios({
+        url: "/user_comments",
+        method: "get",
+        params: {
+          pageIndex: this.pageIndex,
+          pageSize: this.pageSize,
+        },
+      }).then((res) => {
+        if (res.data.data.length <= 0) {
+          this.finished = true;
+        }
+
+        let disObj = res.data.data.map((item) => {
+          let newArr = {
+            ...item,
+            loading: false,
+            finished: false,
+          };
+          return newArr;
+        });
+        this.replyList = [...this.replyList, ...disObj];
+        console.log(this.replyList);
+        this.loading = false;
+      });
+    },
+    // 改造数据结构
+    initReplyList(res) {},
   },
   mounted() {
-
-    this.$axios({
-      url: "/user_comments",
-      method: "get",
-    }).then((res) => {
-      console.log(res.data.data);
-      this.replyList = res.data.data;
-    });
+    // 加载我的跟帖
+    this.loadDiscuss();
   },
 };
 </script>
