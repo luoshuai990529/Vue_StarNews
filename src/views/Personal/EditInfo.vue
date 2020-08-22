@@ -7,7 +7,7 @@
         <div class="uploaderWrapper">
           <van-uploader class :after-read="afterRead" :max-count="1" />
         </div>
-        <img v-if="headimg" :src="'http://localhost:3000'+headimg" alt />
+        <img v-if="headimg" :src="headimg |fixUrl" alt />
         <img v-else src="@/assets/images/d1.jpg" alt />
       </div>
       <p class="infotitle">
@@ -51,7 +51,19 @@
 // 导入组件
 import PeroptTemp from "@/components/PeroptTemp.vue";
 import PerNavTemp from "@/components/PerNavTemp.vue";
+
 export default {
+  filters: {
+    //  图片url过滤器
+    fixUrl(url) {
+      const reg = /^http/;
+      if (reg.test(url)) {
+        return url;
+      } else {
+        return "http://itluoshuai.cn:3000" + url;
+      }
+    },
+  },
   data() {
     return {
       nickname: "",
