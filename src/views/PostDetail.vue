@@ -192,6 +192,7 @@ export default {
     // 分享方法
     share() {
       console.log("分享");
+      this.$toast.fail("该网站目前禁止分享")
     },
     // 点赞方法
     ckLike() {

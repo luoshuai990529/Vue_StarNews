@@ -12,10 +12,8 @@
         v-text="isStar?'★':'☆'"
         :class="isStar?'active':''"
       ></i>
-      <!-- icon-share_icon  @click.stop="shareEmit"-->
-      <div class="bshare-custom icon-medium">
-        <a title="分享到微信" class="bshare-weixin"></a>
-      </div>
+      <!-- -->
+      <i class="iconfont  icon-share_icon"  @click.stop="shareEmit"></i>
     </div>
     <!-- 输入框获取焦点，或者点击评论图标 -->
     <div class="textareaInput" v-if="showInput">
@@ -92,19 +90,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.bshare-custom {
-  position: absolute;
-  top: 20/360*100vw;
-  right: 12/360 * 100vw;
-  z-index: 300;
-  width: 40/360 * 100vw;
-  height: 40/360 * 100vw;
-  .bshare-weixin {
-    width: 100%;
-    height: 100%;
-    font-size: 16/360 * 100vw;
-  }
-}
+
 .writeinp {
   position: fixed;
   display: flex;
