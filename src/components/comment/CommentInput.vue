@@ -128,7 +128,10 @@ export default {
       font-size: 12/360 * 100vw;
     }
     .isStar {
-      font-size: 28/360 * 100vw;
+      font-size: 24/360 * 100vw;
+    }
+    .icon-share_icon{
+      font-size: 18/360*100vw;
     }
     .active {
       color: gold;
