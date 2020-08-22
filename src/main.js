@@ -80,7 +80,7 @@ router.beforeEach((to, from, next) => {
 })
 
 // 设置 axios 的基准路径
-axios.defaults.baseURL = 'http://127.0.0.1:3000'
+axios.defaults.baseURL = '47.113.114.85:3000'
 
 // 添加axios拦截器
 axios.interceptors.request.use(config => {
