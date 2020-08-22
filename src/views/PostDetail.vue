@@ -36,7 +36,7 @@
           controls="true"
           muted="muted"
           src="https://cn-gdfs2-cc-bcache-14.bilivideo.com/upgcxcode/52/54/122705452/122705452-1-6.mp4?e=ig8euxZM2rNcNbdlhoNvNC8BqJIzNbfq9rVEuxTEnE8L5F6VnEsSTx0vkX8fqJeYTj_lta53NCM=&amp;uipk=5&amp;nbs=1&amp;deadline=1597925656&amp;gen=playurl&amp;os=bcache&amp;oi=3698568820&amp;trid=8993e6823c5d43349d7bca1d5dade5b8h&amp;platform=html5&amp;upsig=b3a1940602a1fca495274fd051df28f0&amp;uparams=e,uipk,nbs,deadline,gen,os,oi,trid,platform&amp;cdnid=9843&amp;mid=44167326&amp;cip=211.162.51.157&amp;logo=80000000"
-        ></video> -->
+        ></video>-->
         <!-- <div class v-if="content.indexOf('iframe')!=-1" v-html="content"></div> -->
       </div>
       <div class="articlefrom">
@@ -106,12 +106,14 @@ export default {
   filters: {
     filtContent: function (val) {
       // let str = val.replace(/<\/?[^>]*>/g, "");
-      val = val.replace(/(\n)/g, "");
-      val = val.replace(/(\t)/g, "");
-      val = val.replace(/(\r)/g, "");
-      val = val.replace(/<\/?[^>]*>/g, "");
-      val = val.replace(/\s*/g, "");
-      return val;
+      // val = val.replace(/(\n)/g, "");
+      // val = val.replace(/(\t)/g, "");F
+      // val = val.replace(/(\r)/g, "");
+      // val = val.replace(/<\/?[^>]*>/g, "");
+      // val = val.replace(/\s*/g, "");
+      let str = val.match(/src=[\'\"]?([^\'\"]*)[\'\"]?/i);
+      str = str[0].match(/(?<=").*?(?=")/g);
+      return str[0];
     },
   },
   data() {

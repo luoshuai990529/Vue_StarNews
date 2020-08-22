@@ -1,7 +1,6 @@
 <template>
   <!-- 输入框没有获取焦点 -->
   <div class="writeinp" :class="showInput?'showTextArea':''" @click.stop="handler">
-    
     <div class="inpCon" v-if="!showInput">
       <input type="text" placeholder="写跟帖" @focus="discussEmit" />
       <i class="iconfont icon-pinglun" @click.stop="discussEmit">
@@ -13,7 +12,10 @@
         v-text="isStar?'★':'☆'"
         :class="isStar?'active':''"
       ></i>
-      <i class="iconfont icon-share_icon" @click.stop="shareEmit"></i>
+      <!-- icon-share_icon  @click.stop="shareEmit"-->
+      <div class="bshare-custom icon-medium">
+        <a title="分享到微信" class="bshare-weixin"></a>
+      </div>
     </div>
     <!-- 输入框获取焦点，或者点击评论图标 -->
     <div class="textareaInput" v-if="showInput">
@@ -22,10 +24,8 @@
       <!-- 写一个盒子，来放当前回复的是哪一个用户，用定位定到文本域 -->
       <div v-if="!content&&repname" class="repwho">回复:@{{repname}}</div>
     </div>
-
   </div>
 </template>
-
 <script>
 export default {
   directives: {
@@ -92,6 +92,19 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.bshare-custom {
+  position: absolute;
+  top: 20/360*100vw;
+  right: 12/360 * 100vw;
+  z-index: 300;
+  width: 40/360 * 100vw;
+  height: 40/360 * 100vw;
+  .bshare-weixin {
+    width: 100%;
+    height: 100%;
+    font-size: 16/360 * 100vw;
+  }
+}
 .writeinp {
   position: fixed;
   display: flex;
