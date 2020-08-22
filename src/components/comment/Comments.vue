@@ -3,7 +3,7 @@
     <!-- 评论用户信息 -->
     <div class="comUser">
       <div class="headImg">
-        <img :src="$axios.defaults.baseURL+comment.user.head_img" alt />
+        <img :src="comment.user.head_img|fixUrl" alt />
       </div>
       <div class="comMsg">
         <span class="nickname">{{comment.user.nickname}}</span>
@@ -26,6 +26,17 @@
 // 引入parent楼层组件
 import Parent from "@/components/comment/Parent.vue";
 export default {
+  filters: {
+    //  图片url过滤器
+    fixUrl(url) {
+      const reg = /^http/;
+      if (reg.test(url)) {
+        return url;
+      } else {
+        return "http://itluoshuai.cn:3000" + url;
+      }
+    },
+  },
   props: ["comment"],
   data() {
     return {};

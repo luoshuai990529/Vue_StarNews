@@ -5,7 +5,7 @@
       <div class="myStatus clearfix">
         <!-- 头像 -->
         <div class="iconShow" v-if="headimg">
-          <img :src="'http://localhost:3000'+headimg" alt />
+          <img :src="headimg|fixUrl" alt />
         </div>
         <div class="iconShow" v-else>
           <img src="@/assets/images/d1.jpg" alt />
@@ -82,6 +82,15 @@
 import PeroptTemp from "@/components/PeroptTemp.vue";
 export default {
   filters: {
+    //  图片url过滤器
+    fixUrl(url) {
+      const reg = /^http/;
+      if (reg.test(url)) {
+        return url;
+      } else {
+        return "http://itluoshuai.cn:3000" + url;
+      }
+    },
     formateDate: function (val) {
       let str = val.split("T")[0];
       return str;
@@ -109,7 +118,7 @@ export default {
         this.editInfo();
       } else if (val == "myDiscuss") {
         this.$router.push("/perinfo/mydiscuss");
-      }else if(val=="Manager"){
+      } else if (val == "Manager") {
         this.$router.push("/perinfo/columnmanager");
       }
     },
@@ -122,8 +131,8 @@ export default {
           // 1.清理登录记录 包括token和userId
           localStorage.removeItem("token");
           localStorage.removeItem("userId");
-          localStorage.removeItem("categoryList")
-          localStorage.removeItem("delCategoryList")
+          localStorage.removeItem("categoryList");
+          localStorage.removeItem("delCategoryList");
           // 2.跳转到登录界面
           // this.$router.push("/login")
           // push后退回来还是个人中心，但是由于没有登录
