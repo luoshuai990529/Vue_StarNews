@@ -309,6 +309,7 @@ export default {
     border-bottom: 1px solid #e4e4e4;
     height: 40/360 * 100vw;
     width: 100vw;
+    z-index: 999;
     display: flex;
     .left {
       position: relative;
